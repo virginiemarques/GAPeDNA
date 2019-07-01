@@ -2,6 +2,9 @@
 if (!require("pacman")) install.packages("pacman") ; library(pacman)
 pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard)
 
+# Load data
+load("data/data_for_shiny.Rdata")
+
 # UI
 dashboardPage(
   dashboardHeader(title = "Global gaps for fishes eDNA metabarcoding", 

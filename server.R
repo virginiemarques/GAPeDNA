@@ -17,8 +17,7 @@ function(input, output){
 
   
   output$control_marker <- renderUI({
-    selectInput("the_marker", label = "Choose a primer pair", choices = primers_type %>% 
-                  filter(marker_position == input$marker_position) %>% 
+    selectInput("the_marker", label = "Choose a primer pair", choices = primers_type %>% filter(marker_position == input$marker_position) %>% 
                   dplyr::select(marker_single) %>% pull())
   })
   
