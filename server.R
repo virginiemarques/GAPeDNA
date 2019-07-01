@@ -1,5 +1,8 @@
-# Load data
+# Library 
+if (!require("pacman")) install.packages("pacman") ; library(pacman)
+pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard)
 
+# Load data
 load("data/data_for_shiny.Rdata")
 load("data/freshwater_by_basin_separated.Rdata")
 
@@ -9,6 +12,7 @@ p3 <- p %>%
   left_join(., all_occurence, by='BasinName') %>%
   mutate(pourcent_seq = pourcent_seq*100)
 
+# SERVER
 function(input, output){
 
   
