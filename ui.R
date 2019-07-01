@@ -6,9 +6,11 @@ dashboardPage(
     fluidRow(
       
       column(width = 12,align="center",
+             tags$footer(tags$p("Click on a polygon to display the list of species \n \n")),
+             
              column(width=12, selectInput("dataset", 
                                           label = "Choose a region type",
-                                          choices = c("Marine realms", "Marine provinces", "Marine grid", "Marine ecoregions", "Freshwater")),
+                                          choices = c("Marine realms", "Marine provinces", "Marine ecoregions", "Freshwater")),
                     selected = "Marine provinces"),
              hr(), 
              column(width=12, selectInput("marker_position", 

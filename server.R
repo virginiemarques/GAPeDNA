@@ -1,10 +1,11 @@
 # Load data
 
 load("data/data_for_shiny.Rdata")
-load("freshwater_by_basin_separated.Rdata")
+load("data/freshwater_by_basin_separated.Rdata")
 
 # Format data
 p3 <- p %>%
+  mutate(BasinName = as.character(BasinName)) %>%
   left_join(., all_occurence, by='BasinName') %>%
   mutate(pourcent_seq = pourcent_seq*100)
 
@@ -30,8 +31,7 @@ function(input, output){
            "Freshwater" = p3,
            "Marine realms" = marine_region,
            "Marine provinces" = marine_meow,
-           "Marine ecoregions" = marine_ecoreg,
-           "Marine grid" = marine_grid
+           "Marine ecoregions" = marine_ecoreg
     )
   })
   
