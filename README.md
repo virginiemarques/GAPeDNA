@@ -1,12 +1,12 @@
-# Gaps_shiny_quicktest
+# Quick test for shiny app
 
 This repo allows sharing and testing of our shiny-app investigating database gaps in eDNA.
 
-## Display the app 
+## Display the app
 
 1) On your local computer
 
-You first need to download the repo, then launch R:
+You first need to download the repo, then launch R. Here are the command to run on the terminal:
 
 ```bash
 git clone https://github.com/virginiemarques/Gaps_shiny_quicktest
@@ -17,7 +17,7 @@ R
 After, you need to load `shiny` to run the app in local inside a R session:
 
 ```R
-library('shiny')
+library(shiny)
 RunApp()
 ```
 2) Using GitHub
@@ -28,5 +28,4 @@ Alternatively, you can load the app just by calling the GitHub repo in a local R
 library('shiny')
 runGitHub("Gaps_shiny_quicktest", "virginiemarques")
 ```
-
 
