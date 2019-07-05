@@ -18,7 +18,7 @@ After, you need to load `shiny` to run the app in local inside a R session:
 
 ```R
 library(shiny)
-RunApp()
+runApp()
 ```
 2) Using GitHub
 
