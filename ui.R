@@ -1,6 +1,6 @@
 # Library 
 if (!require("pacman")) install.packages("pacman") ; library(pacman)
-pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard)
+pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, shinycssloaders)
 
 # Load data
 load("data/data_for_shiny.Rdata")
@@ -45,7 +45,7 @@ dashboardPage(
     
     fluidRow(
       #verbatimTextOutput("datasettt"),
-      column(width = 12, leafletOutput("map"), 
+      column(width = 12, withSpinner(leafletOutput("map")),# Try to put a waiting sign
              
              hr()),
       
