@@ -1,4 +1,5 @@
 # Library 
+update.packages(c("shiny", "leaflet", "htmlwidgets", "htmltools", "sf", "tidyverse", "viridis", "shinythemes", "DT", "shinydashboard"), ask=F)
 if (!require("pacman")) install.packages("pacman") ; library(pacman)
 pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard)
 

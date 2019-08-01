@@ -31,12 +31,13 @@ dashboardPage(
              
              hr(),
              downloadButton(offset=12,'download',"Download table"),
-             tags$style(".skin-blue .sidebar a { color: #444; }"),
+             tags$style(".skin-blue .sidebar a { color: #444; }"), # here: need to change the color of the background download box to visualize both link 
+             #tags$style(HTML("a {color: white}"))),
              hr(),
-             tags$footer(tags$p("This application is developped by V. Marques, available in github (link)")),
+             tags$a("This application is developped by V. Marques, available in github (link)", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
              tags$footer(tags$p("Support the following paper (Paper name & hyperlink)")),
              hr(), 
-             tags$footer(tags$p("Last updated in June 2019"))
+             tags$footer(tags$p("Last updated in July 2019"))
              
       ))
     
@@ -45,7 +46,7 @@ dashboardPage(
     
     fluidRow(
       #verbatimTextOutput("datasettt"),
-      column(width = 12, withSpinner(leafletOutput("map")),# Try to put a waiting sign
+      column(width = 12, withSpinner(leafletOutput("map"), type=6),# Try to put a waiting sign
              
              hr()),
       
