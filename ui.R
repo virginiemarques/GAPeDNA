@@ -8,7 +8,7 @@ load("data/data_for_shiny.Rdata")
 # UI
 dashboardPage(
   dashboardHeader(title = "Global gaps for fishes eDNA metabarcoding", 
-                  titleWidth=400),
+                  titleWidth=410),
   dashboardSidebar(
     
     fluidRow(
@@ -16,15 +16,19 @@ dashboardPage(
       column(width = 12,align="center",
              tags$footer(tags$p("Click on a polygon to display the list of species \n \n")),
              
-             column(width=12, selectInput("dataset", 
-                                          label = "Choose a region type",
-                                          choices = c("Marine realms", "Marine provinces", "Marine ecoregions", "Freshwater")),
-                    selected = "Marine provinces"),
+             column(width=12, selectInput("taxon_chosen", 
+                                          label = "Choose a taxon",
+                                          choices = c("Marine fish", "Freshwater fish")),
+                    selected = "Marine fish"),
+             
+             column(width=12, align="center", uiOutput("control_resolution")),
+
              hr(), 
              column(width=12, selectInput("marker_position", 
                                           label = "Choose a mitochondrial position",
                                           choices = unique(primers_type$marker_position),
                                           selected = "12S"))), 
+      
       column(width=12, align="center", uiOutput("control_marker")),
       hr(),
       column(width = 12, align="center",

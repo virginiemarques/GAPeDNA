@@ -13,37 +13,51 @@ p3 <- p %>%
   left_join(., all_occurence, by='BasinName') %>%
   mutate(pourcent_seq = pourcent_seq*100)
 
+# Add a file to guide decision within the app
+# Incorporate in data_for_shiny later if kept
+organisation <- as.data.frame(matrix(NA, ncol=2, nrow=4))
+colnames(organisation) <- c("taxa", "resolution")
+
+organisation$taxa <- c("Marine fish", "Marine fish","Marine fish","Freshwater fish")
+organisation$resolution <- c("Realms", "Provinces", "Ecoregions", "Basins")
+organisation$data_chosen <- c("marine_region", "marine_meow", "marine_ecoreg", "p3")
+
 # SERVER
 function(input, output){
-
   
-  output$control_marker <- renderUI({
-    selectInput("the_marker", label = "Choose a primer pair", choices = primers_type %>% filter(marker_position == input$marker_position) %>% 
-                  dplyr::select(marker_single) %>% pull())
+  output$control_resolution <- renderUI({
+    selectInput("resolution_chosen", label = "Choose a geographic resolution", 
+                choices = organisation %>% dplyr::filter(taxa == input$taxon_chosen) %>% dplyr::select(resolution) %>% pull())
   })
   
-  #input$goButton
+  output$control_marker <- renderUI({
+    selectInput("the_marker", label = "Choose a primer pair", 
+                choices = primers_type %>% dplyr::filter(marker_position == input$marker_position) %>% dplyr::select(marker_single) %>% pull())
+  })
+  
   
   # Select the chosen dataset 
   # Put it in reactive mode to make lighter calculations 
   
   
   datasetInput1 <- reactive({
-    req(input$dataset)
     
-    switch(input$dataset,
-           "Freshwater" = p3,
-           "Marine realms" = marine_region,
-           "Marine provinces" = marine_meow,
-           "Marine ecoregions" = marine_ecoreg
-    )
+    req(input$resolution_chosen)
+
+    organisation %>%
+      dplyr::filter(taxa == input$taxon_chosen) %>% 
+      dplyr::filter(resolution == input$resolution_chosen) %>% 
+      dplyr::select(data_chosen) %>%
+      pull(data_chosen) %>%
+      get()
+    
   })
   
   datasetInput <- reactive({      
     req(input$the_marker)
     
     datasetInput1() %>%
-      dplyr::filter(Marker == input$the_marker) # %>% as(., "Spatial") 
+      dplyr::filter(Marker == input$the_marker) 
   })
   
   
@@ -108,8 +122,8 @@ function(input, output){
                     style = list("font-weight" = "normal", padding = "3px 8px"),
                     textsize = "15px",
                     direction = "auto"))
-                  
-
+    
+    
   })
   
   # Clickable object 
