@@ -42,6 +42,7 @@ function(input, output){
   
   datasetInput1 <- reactive({
     
+    req(input$taxon_chosen)
     req(input$resolution_chosen)
 
     organisation %>%
