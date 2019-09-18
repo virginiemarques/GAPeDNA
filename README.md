@@ -29,3 +29,7 @@ After, you need to load `shiny` to run the app in local inside a R session:
 library('shiny')
 runApp()
 ```
+
+## Demonstration
+
+![grab-landing-page](https://github.com/winnie1312/grab/blob/master/grab-landingpage-winnie.gif)
