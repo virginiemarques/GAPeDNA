@@ -33,15 +33,18 @@ dashboardPage(
       hr(),
       column(width = 12, align="center",
              
+             # CSS tags
+             tags$head(tags$style(".butt{color: black !important;} .credit{font-style: italic;}")),
+             
              hr(),
-             downloadButton(offset=12,'download',"Download table"),
-             tags$style(".skin-blue .sidebar a { color: #444; }"), # here: need to change the color of the background download box to visualize both link 
-             #tags$style(HTML("a {color: white}"))),
+             downloadButton(offset=12,'download',"Download table", class = "butt"),
+             
              hr(),
-             tags$a("This application is developped by V. Marques, available in github (link)", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
-             tags$footer(tags$p("Support the following paper (Paper name & hyperlink)")),
+             tags$a("Code in GitHub", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
+             tags$footer(tags$p("This application is developped by V. Marques and supports the following paper: (Paper name & hyperlink)")),
+             tags$a("Paper link", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
              hr(), 
-             tags$footer(tags$p("Last updated in July 2019"))
+             tags$footer(tags$p("Last updated in July 2019", class = "credit"))
              
       ))
     
@@ -59,3 +62,4 @@ dashboardPage(
     ) # End of fluidRow
   ) # End of body
 ) # End of all
+
