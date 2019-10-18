@@ -18,6 +18,7 @@ p3 <- p %>%
 organisation <- as.data.frame(matrix(NA, ncol=2, nrow=4))
 colnames(organisation) <- c("taxa", "resolution")
 
+# Set the organisation
 organisation$taxa <- c("Marine fish", "Marine fish","Marine fish","Freshwater fish")
 organisation$resolution <- c("Realms", "Provinces", "Ecoregions", "Basins")
 organisation$data_chosen <- c("marine_region", "marine_meow", "marine_ecoreg", "p3")
@@ -143,7 +144,7 @@ function(input, output){
   table_display <- reactive(fresh_and_marine %>%
                               filter(BasinName %in% SelectedID()) %>% # select polygon ID
                               dplyr::select(BasinName, Species_name, IUCN) %>%
-                              mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes=1, no=0)) %>%
+                              mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="yes", no="no")) %>%
                               mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
                               dplyr::select(BasinName, Marker, Species_name, IUCN, Sequenced) %>%
