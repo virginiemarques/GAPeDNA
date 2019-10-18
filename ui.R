@@ -7,8 +7,7 @@ load("data/data_for_shiny.Rdata")
 
 # UI
 dashboardPage(
-  dashboardHeader(title = "GAPeDNA", 
-                  titleWidth=350),
+  dashboardHeader(title = "GAPeDNA"),
   dashboardSidebar(
     
     fluidRow(
