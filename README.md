@@ -11,7 +11,7 @@ You can load the app just by calling the GitHub repo in a local R session. At th
 
 ```R
 library('shiny')
-runGitHub("Gaps_shiny_quicktest", "virginiemarques")
+runGitHub("GAPeDNA", "virginiemarques")
 ```
 
 2) On your local computer
@@ -19,8 +19,8 @@ runGitHub("Gaps_shiny_quicktest", "virginiemarques")
 Alternatively, you first need to download the repo, then launch R. Here are the command to run on the terminal (Linux/Mac only):
 
 ```bash
-git clone https://github.com/virginiemarques/Gaps_shiny_quicktest
-cd Gaps_shiny_quicktest/
+git clone https://github.com/virginiemarques/GAPeDNA
+cd GAPeDNA/
 R
 ```
 
