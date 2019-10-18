@@ -7,8 +7,8 @@ load("data/data_for_shiny.Rdata")
 
 # UI
 dashboardPage(
-  dashboardHeader(title = "Global gaps for fishes eDNA metabarcoding", 
-                  titleWidth=410),
+  dashboardHeader(title = "GAPeDNA", 
+                  titleWidth=350),
   dashboardSidebar(
     
     fluidRow(
