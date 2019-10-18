@@ -103,7 +103,7 @@ function(input, output){
       addLegend(conpal, 
                 c(0,100),
                 opacity = 1, 
-                title = NULL,
+                title = "Percentage of <br>species sequenced",
                 position = "bottomright") %>%
       # Polygons
       addPolygons(layerId=~BasinName, group = "continuous",
