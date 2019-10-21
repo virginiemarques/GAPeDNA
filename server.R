@@ -144,7 +144,7 @@ function(input, output){
   table_display <- reactive(fresh_and_marine %>%
                               filter(BasinName %in% SelectedID()) %>% # select polygon ID
                               dplyr::select(BasinName, Species_name, IUCN) %>%
-                              mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="yes", no="no")) %>%
+                              mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
                               mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
                               dplyr::select(BasinName, Marker, Species_name, IUCN, Sequenced) %>%
@@ -163,7 +163,7 @@ function(input, output){
                 htmltools::em('DD: Data Deficient, EX: extinct, EW: extinct in wild, CR: Critically endangered, EN: Engangered, VU: Vulnerable, NT: Near Threatened, LC: Least Concern'))) %>%
       
       formatStyle('Sequenced',
-                  backgroundColor = styleEqual(c(0,1), c('#F7FBFF', '#abf9bc'))) %>% # Or lightgreen also is fine
+                  backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% # Or lightgreen also is fine
       
       formatStyle('IUCN',
                   backgroundColor = styleEqual(c("EX", "EW", "CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7a883', '#f7b583', '#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
