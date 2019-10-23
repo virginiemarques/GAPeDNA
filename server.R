@@ -36,6 +36,10 @@ function(input, output){
                 choices = primers_type %>% dplyr::filter(marker_position == input$marker_position) %>% dplyr::select(marker_single) %>% pull())
   })
   
+  # Control the text
+  output$selected_txt <- renderText({ 
+    "Click on a polygon to display the list of species"
+  })
   
   # Select the chosen dataset 
   # Put it in reactive mode to make lighter calculations 
@@ -45,7 +49,7 @@ function(input, output){
     
     req(input$taxon_chosen)
     req(input$resolution_chosen)
-
+    
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
       dplyr::filter(resolution == input$resolution_chosen) %>% 
@@ -145,9 +149,9 @@ function(input, output){
                               filter(BasinName %in% SelectedID()) %>% # select polygon ID
                               dplyr::select(BasinName, Species_name, IUCN) %>%
                               mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
-                              mutate(Marker = input$the_marker) %>%
+                              mutate(Primer = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
-                              dplyr::select(BasinName, Marker, Species_name, IUCN, Sequenced) %>%
+                              dplyr::select(BasinName, Primer, Species_name, IUCN, Sequenced) %>%
                               arrange(Species_name))
   
   output$tableau = DT::renderDataTable({
