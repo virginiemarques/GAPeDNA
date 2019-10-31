@@ -33,7 +33,7 @@ runApp()
 
 ## New taxa addition
 
-To propose a new taxon to be added in GAPeDNA, please file an issue as 'improvement' in this repo stating the wanted group, and provide the necessary informations:
+To propose a new taxon to be added in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary informations:
 
 * primers amplifying the taxon, or a list of species amplified by each primer if you already performed the virtual PCRs
 * one or several global spatialized checklist with relevant resolution 
