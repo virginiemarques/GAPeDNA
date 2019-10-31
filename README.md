@@ -31,6 +31,15 @@ library('shiny')
 runApp()
 ```
 
+## New taxa addition
+
+To propose a new taxon to be added in GAPeDNA, please file an issue as 'improvement' in this repo stating the wanted group, and provide the necessary informations:
+
+* primers amplifying the taxon, or a list of species amplified by each primer if you already performed the virtual PCRs
+* one or several global spatialized checklist with relevant resolution 
+
+If the information is correct, the app will be updated to implement your suggestion
+
 ## Demonstration
 
 ![grab-landing-page](https://github.com/virginiemarques/Gaps_shiny_quicktest/blob/master/README/Shiny_2.gif)
