@@ -26,7 +26,7 @@ load("data/04_all_iucn.Rdata")
 load("data/all_primers.Rdata")
 
 # Freshwater
-load("data/freshwater_by_basin_separated.Rdata")
+load("data/freshwater_by_basin_separated.Rdata") # it is okay
 
 p3 <- merge(p, all_occurence, by='BasinName')
 p3 <- p3 %>%

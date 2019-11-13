@@ -39,11 +39,11 @@ dashboardPage(
              downloadButton(offset=12,'download',"Download table", class = "butt"),
              
              hr(),
-             tags$a("Code in GitHub", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
+             tags$a("Source code in GitHub", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
              tags$footer(tags$p("This shiny-app is developped by V. Marques and supports the following paper: ")),
              tags$a("Paper link", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
              hr(), 
-             tags$footer(tags$p("Last updated in October 2019", class = "credit"))
+             tags$footer(tags$p("Last updated in November 2019", class = "credit"))
              
       ))
     

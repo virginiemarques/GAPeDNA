@@ -1,7 +1,7 @@
 # Library 
 update.packages(c("shiny", "leaflet", "htmlwidgets", "htmltools", "sf", "tidyverse", "viridis", "shinythemes", "DT", "shinydashboard"), ask=F)
 if (!require("pacman")) install.packages("pacman") ; library(pacman)
-pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard)
+pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, rnaturalearth)
 
 # Load data
 load("data/data_for_shiny.Rdata")
@@ -12,6 +12,9 @@ p3 <- p %>%
   mutate(BasinName = as.character(BasinName)) %>%
   left_join(., all_occurence, by='BasinName') %>%
   mutate(pourcent_seq = pourcent_seq*100)
+
+# Land data
+land <- ne_countries(returnclass = "sf") 
 
 # Add a file to guide decision within the app
 # Incorporate in data_for_shiny later if kept
