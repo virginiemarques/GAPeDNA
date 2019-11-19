@@ -18,13 +18,13 @@ land <- ne_countries(returnclass = "sf")
 
 # Add a file to guide decision within the app
 # Incorporate in data_for_shiny later if kept
-organisation <- as.data.frame(matrix(NA, ncol=2, nrow=4))
+organisation <- as.data.frame(matrix(NA, ncol=2, nrow=3))
 colnames(organisation) <- c("taxa", "resolution")
 
 # Set the organisation
-organisation$taxa <- c("Marine fish", "Marine fish","Marine fish","Freshwater fish")
-organisation$resolution <- c("Realms", "Provinces", "Ecoregions", "Basins")
-organisation$data_chosen <- c("marine_region", "marine_meow", "marine_ecoreg", "p3")
+organisation$taxa <- c("Marine fish","Marine fish","Freshwater fish")
+organisation$resolution <- c("Provinces", "Ecoregions", "Basins")
+organisation$data_chosen <- c("marine_meow", "marine_ecoreg", "p3")
 
 # SERVER
 function(input, output){
@@ -66,7 +66,7 @@ function(input, output){
     req(input$the_marker)
     
     datasetInput1() %>%
-      dplyr::filter(Marker == input$the_marker) 
+      dplyr::filter(Marker == input$the_marker)
   })
   
   
@@ -114,7 +114,7 @@ function(input, output){
                 position = "bottomright") %>%
       # Polygons
       addPolygons(layerId=~BasinName, group = "continuous",
-                  smoothFactor = 0.2, fillOpacity = 1,
+                  smoothFactor = 1, fillOpacity = 1,
                   fillColor = ~conpal(datasetInput()$pourcent_seq),
                   weight = 1,
                   opacity = 1,
