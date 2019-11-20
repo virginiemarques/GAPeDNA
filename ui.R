@@ -13,12 +13,10 @@ dashboardPage(
     fluidRow(
       
       column(width = 12,align="center",
-             #tags$footer(tags$p("Click on a polygon to display the list of species \n \n")),
-             
              column(width=12, selectInput("taxon_chosen", 
                                           label = "Choose a taxon",
                                           choices = c("Marine fish", "Freshwater fish")),
-                    selected = "Marine fish"),
+                    selected = "Freshwater fish"),
              
              column(width=12, align="center", uiOutput("control_resolution")),
              

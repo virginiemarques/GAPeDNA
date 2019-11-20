@@ -18,13 +18,10 @@ land <- ne_countries(returnclass = "sf")
 
 # Add a file to guide decision within the app
 # Incorporate in data_for_shiny later if kept
-organisation <- as.data.frame(matrix(NA, ncol=2, nrow=3))
-colnames(organisation) <- c("taxa", "resolution")
-
-# Set the organisation
-organisation$taxa <- c("Marine fish","Marine fish","Freshwater fish")
-organisation$resolution <- c("Provinces", "Ecoregions", "Basins")
-organisation$data_chosen <- c("marine_meow", "marine_ecoreg", "p3")
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
+                           resolution = c("Provinces", "Ecoregions", "Basins"),
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
+                           stringsAsFactors = F)
 
 # SERVER
 function(input, output){
@@ -41,18 +38,25 @@ function(input, output){
   
   # Control the text
   output$selected_txt <- renderText({ 
-    "Click on a polygon to display the list of species"
+    "Click on a polygon to display the list of corresponding species"
   })
   
   # Select the chosen dataset 
   # Put it in reactive mode to make lighter calculations 
-  
-  
   datasetInput1 <- reactive({
     
+    # Verify the input or not null before selection
     req(input$taxon_chosen)
     req(input$resolution_chosen)
     
+    # another test for this verification
+    if(is.null(input$taxon_chosen) || is.null(input$resolution_chosen)){return()}
+    
+    # Verif test 3
+    validate(need(!is.null(input$taxon_chosen), "Please choose a taxon"))
+    validate(need(!is.null(input$resolution_chosen), "Please choose a resolution"))
+    
+    # Choice
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
       dplyr::filter(resolution == input$resolution_chosen) %>% 
@@ -64,6 +68,8 @@ function(input, output){
   
   datasetInput <- reactive({      
     req(input$the_marker)
+    # another test for this verification
+    if(is.null(input$the_marker)){return()}
     
     datasetInput1() %>%
       dplyr::filter(Marker == input$the_marker)
@@ -81,6 +87,9 @@ function(input, output){
     req(datasetInput1())
     req(datasetInput())
     
+    # another test for this verification
+    if(is.null(datasetInput1()) || is.null(datasetInput1())){return()}
+
     # Do personalizations depending on the dataset in input 
     # Can be speed up using do.call (maybe)
     # Labels en pourcent
@@ -181,7 +190,7 @@ function(input, output){
   
   output$download <- downloadHandler(
     filename = function() {
-      paste(input$dataset, "_", input$the_marker, "_", SelectedID(), ".csv", sep = "")
+      paste(input$taxon_chosen, "_", input$the_marker, "_", SelectedID(), ".csv", sep = "")
     },
     content = function(file) {
       write.csv( table_display(), file, row.names = FALSE)
