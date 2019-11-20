@@ -14,7 +14,7 @@ p3 <- p %>%
   mutate(pourcent_seq = pourcent_seq*100)
 
 # Land data
-land <- ne_countries(returnclass = "sf") 
+# land <- ne_countries(returnclass = "sf") 
 
 # Add a file to guide decision within the app
 # Incorporate in data_for_shiny later if kept
