@@ -5,6 +5,12 @@ pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, s
 # Load data
 load("data/data_for_shiny.Rdata")
 
+# Orga file 
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Marine fish_test"), 
+                           resolution = c("Provinces", "Ecoregions", "Basins", "Test"),
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "marine_meow_test"), 
+                           stringsAsFactors = F)
+
 # UI
 dashboardPage(
   dashboardHeader(title = "GAPeDNA"),
@@ -15,8 +21,8 @@ dashboardPage(
       column(width = 12,align="center",
              column(width=12, selectInput("taxon_chosen", 
                                           label = "Choose a taxon",
-                                          choices = c("Marine fish", "Freshwater fish")),
-                    selected = "Freshwater fish"),
+                                          choices = unique(organisation$taxa)),
+                    selected = "Marine fish"),
              
              column(width=12, align="center", uiOutput("control_resolution")),
              

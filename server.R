@@ -16,11 +16,14 @@ p3 <- p %>%
 # Land data
 # land <- ne_countries(returnclass = "sf") 
 
+# TESTING -- BUG SERVER 
+marine_meow_test <- marine_meow
+# END OF TESTING 
+
 # Add a file to guide decision within the app
-# Incorporate in data_for_shiny later if kept
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
-                           resolution = c("Provinces", "Ecoregions", "Basins"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Marine fish_test"), 
+                           resolution = c("Provinces", "Ecoregions", "Basins", "Test"),
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "marine_meow_test"), 
                            stringsAsFactors = F)
 
 # SERVER
