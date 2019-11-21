@@ -19,37 +19,31 @@ p3_small <- p3[1:500,]
 # SERVER
 function(input, output){
   
+  # Geo choice
   output$control_resolution <- renderUI({
     selectInput("resolution_chosen", label = "Choose a geographic resolution", 
                 choices = organisation %>% dplyr::filter(taxa == input$taxon_chosen) %>% dplyr::select(resolution) %>% pull())
   })
   
+  # Marker choice
   output$control_marker <- renderUI({
     selectInput("the_marker", label = "Choose a primer pair", 
                 choices = primers_type %>% dplyr::filter(marker_position == input$marker_position) %>% dplyr::select(marker_single) %>% pull())
   })
   
-  # Control the text
+  # Explication
   output$selected_txt <- renderText({ 
     "Click on a polygon to display the list of corresponding species"
   })
-#  
-  # Select the chosen dataset 
-  # Put it in reactive mode to make lighter calculations 
+
+  # Select the chosen dataset & put it in reactive mode 
   datasetInput1 <- reactive({
     
     # Verify the input or not null before selection
     req(input$taxon_chosen)
     req(input$resolution_chosen)
     
-    # another test for this verification
-    if(is.null(input$taxon_chosen) || is.null(input$resolution_chosen)){return()}
-    
-    # Verif test 3
-    validate(need(!is.null(input$taxon_chosen), "Please choose a taxon"))
-    validate(need(!is.null(input$resolution_chosen), "Please choose a resolution"))
-    
-    # Choice
+    # Get the dataset
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
       dplyr::filter(resolution == input$resolution_chosen) %>% 
@@ -66,7 +60,7 @@ function(input, output){
     req(input$taxon_chosen)
     req(input$resolution_chosen)
     
-    # Choice
+    # Get the dataset
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
       dplyr::filter(resolution == input$resolution_chosen) %>% 
@@ -76,23 +70,18 @@ function(input, output){
     
   })
   
-  # Filter by the chosen Marker and transform as spatial object
+  # Filter by the chosen primer and transform as spatial object
   datasetInput <- reactive({ 
+    
     # Verification 
     req(input$the_marker)
     
+    # Get dataset
     datasetInput1() %>%
       dplyr::filter(Marker == input$the_marker) %>%
       left_join(., dataset_geometry()) %>%
       st_as_sf()
-    
   })
-  
-  
-  #output$datasettt <- renderPrint({
-  #  paste(input$dataset, 
-  #        datasetInput1())
-  #})
   
   # The leaflet map
   output$map <- renderLeaflet({
@@ -145,12 +134,9 @@ function(input, output){
                     style = list("font-weight" = "normal", padding = "3px 8px"),
                     textsize = "15px",
                     direction = "auto"))
-    
-    
-  })
+  }) # End of leaflet
   
-  # Clickable object 
-  # Create a null reactive value to store the ID of the layer
+  # Clickable object: create a null reactive value to store the ID of the layer
   SelectedID <- reactiveVal(NULL)
   
   # Observe statement
@@ -186,10 +172,8 @@ function(input, output){
                 style = 'caption-side: bottom; text-align: center;',
                 'UICN categories: ', 
                 htmltools::em('DD: Data Deficient, EX: extinct, EW: extinct in wild, CR: Critically endangered, EN: Engangered, VU: Vulnerable, NT: Near Threatened, LC: Least Concern'))) %>%
-      
       formatStyle('Sequenced',
-                  backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% # Or lightgreen also is fine
-      
+                  backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% 
       formatStyle('IUCN',
                   backgroundColor = styleEqual(c("EX", "EW", "CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7a883', '#f7b583', '#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
     
@@ -204,6 +188,4 @@ function(input, output){
       write.csv( table_display(), file, row.names = FALSE)
     }
   )
-  
-  
-}
+} # End of server

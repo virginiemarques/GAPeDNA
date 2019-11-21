@@ -20,47 +20,61 @@ dashboardPage(
     fluidRow(
       
       column(width = 12,align="center",
-             column(width=12, selectInput("taxon_chosen", 
+             
+             # Select taxa
+             selectInput("taxon_chosen", 
                                           label = "Choose a taxon",
-                                          choices = unique(organisation$taxa)),
+                                          choices = unique(organisation$taxa),
                     selected = "Marine fish"),
              
-             column(width=12, align="center", uiOutput("control_resolution")),
+             # Select geographic resolution
+             uiOutput("control_resolution"),
              
-             hr(), 
-             column(width=12, selectInput("marker_position", 
+             # Select marker position
+             selectInput("marker_position", 
                                           label = "Choose a mitochondrial position",
                                           choices = unique(primers_type$marker_position),
-                                          selected = "12S"))), 
-      
-      column(width=12, align="center", uiOutput("control_marker")),
-      hr(),
-      column(width = 12, align="center",
+                                          selected = "12S"), 
              
-             # CSS tags
-             tags$head(tags$style(".butt{color: black !important;} .credit{font-style: italic;}")),
+            # Select primer
+            uiOutput("control_marker"),
+            
+            # CSS tags for color
+            tags$head(tags$style(".butt{color: black !important;} .credit{font-style: italic;}")),
+            hr(),
+            
+            # Download button
+            downloadButton(offset=12,'download',"Download table", class = "butt"),
+            hr(),
+            
+            # Link for source code
+            tags$a("Source code in GitHub", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+            
+            # Explanation
+            tags$footer(tags$p("This shiny-app is developped by V. Marques and supports the following paper: ")),
+            
+            # Link for paper
+            tags$a("Link to the paper", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+            hr(), 
+            
+            # Update info
+            tags$footer(tags$p("Last updated in November 2019", class = "credit"))
              
-             hr(),
-             downloadButton(offset=12,'download',"Download table", class = "butt"),
-             
-             hr(),
-             tags$a("Source code in GitHub", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
-             tags$footer(tags$p("This shiny-app is developped by V. Marques and supports the following paper: ")),
-             tags$a("Paper link", href="https://github.com/virginiemarques/Gaps_shiny_quicktest", target="_blank"),
-             hr(), 
-             tags$footer(tags$p("Last updated in November 2019", class = "credit"))
-             
-      ))
+      ) # end of column
+      ) # end of fluidrow
     
-  ), #end of sidebar,
+  ), # end of sidebar,
   dashboardBody(
     
     fluidRow(
-      #verbatimTextOutput("datasettt"),
+      
+      # Leaflet map with waiting wheel
       column(width = 12, withSpinner(leafletOutput("map"), type=6)),# Try to put a waiting sign,
       
+      # Explanation text
       column(width = 12,  textOutput("selected_txt")),
       
+      # The table
       column(width = 12, hr(),
              DT::dataTableOutput("tableau"))
       
