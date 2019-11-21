@@ -4,27 +4,17 @@ if (!require("pacman")) install.packages("pacman") ; library(pacman)
 pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, rnaturalearth)
 
 # Load data
-load("data/data_for_shiny.Rdata")
-load("data/freshwater_by_basin_separated.Rdata")
-
-# Format data
-p3 <- p %>%
-  mutate(BasinName = as.character(BasinName)) %>%
-  left_join(., all_occurence, by='BasinName') %>%
-  mutate(pourcent_seq = pourcent_seq*100)
-
-# Land data
-# land <- ne_countries(returnclass = "sf") 
-
-# TESTING -- BUG SERVER 
-marine_meow_test <- marine_meow
-# END OF TESTING 
+load("data/all_data_shiny.Rdata")
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Marine fish_test"), 
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Freshwater_test"), 
                            resolution = c("Provinces", "Ecoregions", "Basins", "Test"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "marine_meow_test"), 
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "p3_small"), 
+                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom", "p3_geom"),
                            stringsAsFactors = F)
+
+# Add a  small freshwater for testing
+p3_small <- p3[1:500,]
 
 # SERVER
 function(input, output){
@@ -43,7 +33,7 @@ function(input, output){
   output$selected_txt <- renderText({ 
     "Click on a polygon to display the list of corresponding species"
   })
-  
+#  
   # Select the chosen dataset 
   # Put it in reactive mode to make lighter calculations 
   datasetInput1 <- reactive({
@@ -69,13 +59,33 @@ function(input, output){
     
   })
   
-  datasetInput <- reactive({      
+  # Store the geometry corresponding to the chosen dataset
+  dataset_geometry <- reactive({
+    
+    # Verify the input or not null before selection
+    req(input$taxon_chosen)
+    req(input$resolution_chosen)
+    
+    # Choice
+    organisation %>%
+      dplyr::filter(taxa == input$taxon_chosen) %>% 
+      dplyr::filter(resolution == input$resolution_chosen) %>% 
+      dplyr::select(geometry) %>%
+      pull(geometry) %>%
+      get()
+    
+  })
+  
+  # Filter by the chosen Marker and transform as spatial object
+  datasetInput <- reactive({ 
+    # Verification 
     req(input$the_marker)
-    # another test for this verification
-    if(is.null(input$the_marker)){return()}
     
     datasetInput1() %>%
-      dplyr::filter(Marker == input$the_marker)
+      dplyr::filter(Marker == input$the_marker) %>%
+      left_join(., dataset_geometry()) %>%
+      st_as_sf()
+    
   })
   
   
@@ -87,28 +97,20 @@ function(input, output){
   # The leaflet map
   output$map <- renderLeaflet({
     
+    # Verif
     req(datasetInput1())
     req(datasetInput())
     
-    # another test for this verification
-    if(is.null(datasetInput1()) || is.null(datasetInput1())){return()}
-
-    # Do personalizations depending on the dataset in input 
-    # Can be speed up using do.call (maybe)
-    # Labels en pourcent
+    # Labels in %
     labels <- sprintf(
       "<strong>%s</strong><br/>%g %% sequenced <br/> %g / %g sequenced species",
       datasetInput()$BasinName,  datasetInput()$pourcent_seq, datasetInput()$nombre_seq, datasetInput()$nombre_tot) %>% 
       lapply(htmltools::HTML)
     
-    # Deak with colors and bins
-    # bins <- c(0, 20,40,60,80,100)
-    #bins <- seq(0,100, 20)
-    #pal <- colorBin("YlOrRd", domain = datasetInput()$pourcent_seq, bins = bins)
-    
-    #conpal <- colorNumeric(palette = "YlOrRd", domain = datasetInput()$pourcent_seq)
+    # Color palette
     conpal <- colorNumeric(palette = "YlOrRd", domain = c(0,100))
     
+    # Print map
     map <- leaflet(datasetInput()) %>%
       # Background
       addTiles() %>%
@@ -169,8 +171,12 @@ function(input, output){
                               dplyr::select(BasinName, Primer, Species_name, IUCN, Sequenced) %>%
                               arrange(Species_name))
   
+  # Print the DT table
   output$tableau = DT::renderDataTable({
+    # Verif
     req(SelectedID())
+    
+    # Table
     datatable(table_display(), 
               class = 'cell-border stripe', 
               options = list(columnDefs = list(list(className = 'dt-center', targets = "_all"))),
@@ -189,8 +195,7 @@ function(input, output){
     
   })
   
-  # the download
-  
+  # Download options
   output$download <- downloadHandler(
     filename = function() {
       paste(input$taxon_chosen, "_", input$the_marker, "_", SelectedID(), ".csv", sep = "")

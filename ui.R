@@ -3,12 +3,13 @@ if (!require("pacman")) install.packages("pacman") ; library(pacman)
 pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, shinycssloaders)
 
 # Load data
-load("data/data_for_shiny.Rdata")
+load("data/all_data_shiny.Rdata")
 
-# Orga file 
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Marine fish_test"), 
+# Add a file to guide decision within the app
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Freshwater_test"), 
                            resolution = c("Provinces", "Ecoregions", "Basins", "Test"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "marine_meow_test"), 
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "p3_small"), 
+                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom", "p3_geom"),
                            stringsAsFactors = F)
 
 # UI
