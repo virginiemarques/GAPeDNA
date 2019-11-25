@@ -1,7 +1,17 @@
 # Library 
 # update.packages(c("shiny", "leaflet", "htmlwidgets", "htmltools", "sf", "tidyverse", "viridis", "shinythemes", "DT", "shinydashboard"), ask=F)
-if (!require("pacman")) install.packages("pacman") ; library(pacman)
-pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, rnaturalearth)
+# if (!require("pacman")) install.packages("pacman") ; library(pacman)
+# pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, shinythemes, DT, shinydashboard)
+
+library(shiny)
+library(leaflet)
+library(htmlwidgets)
+library(htmltools)
+library(sf)
+library(tidyverse)
+library(shinythemes)
+library(DT)
+library(shinydashboard)
 
 # Load data
 load("data/all_data_shiny.Rdata")
@@ -15,7 +25,6 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish
 
 # SERVER
 function(input, output){
-  
   # Geo choice
   output$control_resolution <- renderUI({
     selectInput("resolution_chosen", label = "Choose a geographic resolution", 

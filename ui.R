@@ -1,9 +1,17 @@
 # Library 
-if (!require("pacman")) install.packages("pacman") ; library(pacman)
-pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, shinycssloaders)
+# if (!require("pacman")) install.packages("pacman") ; library(pacman)
+# pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, shinythemes, DT, shinydashboard, shinycssloaders)
 
-# Load data
-load("data/all_data_shiny.Rdata")
+library(shiny)
+library(leaflet)
+library(htmltools)
+library(htmlwidgets)
+library(sf)
+library(tidyverse)
+library(shinythemes)
+library(DT)
+library(shinydashboard)
+library(shinycssloaders)
 
 # Add a file to guide decision within the app
 organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
@@ -11,6 +19,9 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish
                            data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
                            geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"),
                            stringsAsFactors = F)
+
+# Markers 
+choices_marker <- c("12S",  "16S",  "COI",  "CYTB", "18S")
 
 # UI
 dashboardPage(
@@ -27,7 +38,7 @@ dashboardPage(
              # Select marker position
              selectInput("marker_position", 
                                           label = "Choose a mitochondrial position",
-                                          choices = unique(primers_type$marker_position),
+                                          choices = choices_marker,
                                           selected = "12S"), 
             # Select primer
             uiOutput("control_marker"),
@@ -46,7 +57,6 @@ dashboardPage(
             hr(), 
             # Update info
             tags$footer(tags$p("Last updated in November 2019", class = "credit"))
-             
       ) # end of column
       ) # end of fluidrow
     
