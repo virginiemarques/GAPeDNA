@@ -1,5 +1,5 @@
 # Library 
-update.packages(c("shiny", "leaflet", "htmlwidgets", "htmltools", "sf", "tidyverse", "viridis", "shinythemes", "DT", "shinydashboard"), ask=F)
+# update.packages(c("shiny", "leaflet", "htmlwidgets", "htmltools", "sf", "tidyverse", "viridis", "shinythemes", "DT", "shinydashboard"), ask=F)
 if (!require("pacman")) install.packages("pacman") ; library(pacman)
 pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, shinythemes, DT, shinydashboard, rnaturalearth)
 
@@ -7,14 +7,11 @@ pacman::p_load(shiny, leaflet, htmlwidgets, htmltools, sf, tidyverse, viridis, s
 load("data/all_data_shiny.Rdata")
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish", "Freshwater_test"), 
-                           resolution = c("Provinces", "Ecoregions", "Basins", "Test"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3", "p3_small"), 
-                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom", "p3_geom"),
+organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
+                           resolution = c("Provinces", "Ecoregions", "Basins"),
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
+                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"),
                            stringsAsFactors = F)
-
-# Add a  small freshwater for testing
-p3_small <- p3[1:500,]
 
 # SERVER
 function(input, output){
@@ -24,25 +21,20 @@ function(input, output){
     selectInput("resolution_chosen", label = "Choose a geographic resolution", 
                 choices = organisation %>% dplyr::filter(taxa == input$taxon_chosen) %>% dplyr::select(resolution) %>% pull())
   })
-  
   # Marker choice
   output$control_marker <- renderUI({
     selectInput("the_marker", label = "Choose a primer pair", 
                 choices = primers_type %>% dplyr::filter(marker_position == input$marker_position) %>% dplyr::select(marker_single) %>% pull())
   })
-  
   # Explication
   output$selected_txt <- renderText({ 
     "Click on a polygon to display the list of corresponding species"
   })
-
   # Select the chosen dataset & put it in reactive mode 
   datasetInput1 <- reactive({
-    
     # Verify the input or not null before selection
     req(input$taxon_chosen)
     req(input$resolution_chosen)
-    
     # Get the dataset
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
@@ -50,16 +42,13 @@ function(input, output){
       dplyr::select(data_chosen) %>%
       pull(data_chosen) %>%
       get()
-    
   })
   
   # Store the geometry corresponding to the chosen dataset
   dataset_geometry <- reactive({
-    
     # Verify the input or not null before selection
     req(input$taxon_chosen)
     req(input$resolution_chosen)
-    
     # Get the dataset
     organisation %>%
       dplyr::filter(taxa == input$taxon_chosen) %>% 
@@ -67,15 +56,12 @@ function(input, output){
       dplyr::select(geometry) %>%
       pull(geometry) %>%
       get()
-    
   })
   
   # Filter by the chosen primer and transform as spatial object
   datasetInput <- reactive({ 
-    
     # Verification 
     req(input$the_marker)
-    
     # Get dataset
     datasetInput1() %>%
       dplyr::filter(Marker == input$the_marker) %>%
@@ -85,20 +71,16 @@ function(input, output){
   
   # The leaflet map
   output$map <- renderLeaflet({
-    
     # Verif
     req(datasetInput1())
     req(datasetInput())
-    
     # Labels in %
     labels <- sprintf(
       "<strong>%s</strong><br/>%g %% sequenced <br/> %g / %g sequenced species",
       datasetInput()$BasinName,  datasetInput()$pourcent_seq, datasetInput()$nombre_seq, datasetInput()$nombre_tot) %>% 
       lapply(htmltools::HTML)
-    
     # Color palette
     conpal <- colorNumeric(palette = "YlOrRd", domain = c(0,100))
-    
     # Print map
     map <- leaflet(datasetInput()) %>%
       # Background
@@ -156,7 +138,6 @@ function(input, output){
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
                               dplyr::select(BasinName, Primer, Species_name, IUCN, Sequenced) %>%
                               arrange(Species_name))
-  
   # Print the DT table
   output$tableau = DT::renderDataTable({
     # Verif
