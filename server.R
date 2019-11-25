@@ -152,11 +152,11 @@ function(input, output){
               caption = htmltools::tags$caption(
                 style = 'caption-side: bottom; text-align: center;',
                 'UICN categories: ', 
-                htmltools::em('DD: Data Deficient, EX: extinct, EW: extinct in wild, CR: Critically endangered, EN: Engangered, VU: Vulnerable, NT: Near Threatened, LC: Least Concern'))) %>%
+                htmltools::em('DD: Data Deficient, CR: Critically endangered, EN: Engangered, VU: Vulnerable, NT: Near Threatened, LC: Least Concern'))) %>%
       formatStyle('Sequenced',
                   backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% 
       formatStyle('IUCN',
-                  backgroundColor = styleEqual(c("EX", "EW", "CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7a883', '#f7b583', '#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
+                  backgroundColor = styleEqual(c("CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
     
   })
   
