@@ -1,7 +1,16 @@
 # Source code for GAPeDNA 
 
-This repo allows sharing and testing of our web-app interface investigating database gaps in eDNA.
-After paper acceptance, the app will be deposited on a server for easy access thought a web link. 
+This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers. The online access to the app is [here](https://shiny.cefe.cnrs.fr/GAPeDNA/).
+Alternatively, you can also access the app in your local machine. 
+
+## New taxa addition
+
+To propose a new taxon to be added in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary informations:
+
+* Primers amplifying the taxon, or a list of species amplified by each primer if you already performed the virtual PCRs
+* One or several global spatialized checklist with relevant resolution 
+
+If the information is correct, the app will be updated to implement your suggestion. 
 
 ## Display the app
 
@@ -30,15 +39,6 @@ After, you need to load `shiny` to run the app in local inside a R session:
 library('shiny')
 runApp()
 ```
-
-## New taxa addition
-
-To propose a new taxon to be added in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary informations:
-
-* primers amplifying the taxon, or a list of species amplified by each primer if you already performed the virtual PCRs
-* one or several global spatialized checklist with relevant resolution 
-
-If the information is correct, the app will be updated to implement your suggestion
 
 ## Demonstration
 
