@@ -1,4 +1,4 @@
-# Temporary access to GAPeDNA 
+# Source code for GAPeDNA 
 
 This repo allows sharing and testing of our web-app interface investigating database gaps in eDNA.
 After paper acceptance, the app will be deposited on a server for easy access thought a web link. 
