@@ -18,7 +18,8 @@ If the information is correct, the app will be updated to implement your suggest
 
 1) Using GitHub
 
-You can load the app just by calling the GitHub repo in a local R session. At the moment, it takes a  long time to load (>5-10 min):
+You can load the app just by calling the GitHub repo in a local R session. Depending on your internet connexion, it can take up to a few minutes to fully load.   
+Some errors linked to package version might also arise, if such you are invited to install it on your local computer on a R session and update or install the missing packages. 
 
 ```R
 library('shiny')
