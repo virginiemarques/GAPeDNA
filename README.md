@@ -39,7 +39,7 @@ You can also click on a polygon of interest and the full list of species occurri
 
 Finally, you can download the printed table using the download button on the sidebar.
 
-If you are interested in the full data to investigate the comparison in primer coverage on your own, you can install the app locally and load the full dataset.
+If you are interested in the full data to investigate the comparison in primer coverage on your own, you can install the app locally and load the full dataset in R.
 
 
 ## Local display of the app
