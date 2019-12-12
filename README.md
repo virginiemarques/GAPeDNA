@@ -21,7 +21,7 @@ At the moment, the app uses EMBL release 138 (downloaded in January 2019) as the
 
 Here is how the data is generated:
 
-![Alt text](README/schema_method.png?raw=true "Title")
+![Alt text](README/schema_method2.png?raw=true "Title")
 
 GAPeDNA allows you to interact with the spatialized species coverage map, while choosing the relevant primer pair and wanted spatial resolution for the species checklist.
 
