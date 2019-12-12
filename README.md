@@ -27,15 +27,20 @@ GAPeDNA allows you to interact with the spatialized species coverage map, while 
 
 ![Alt text](README/schema_appli.png?raw=true "Title")
 
+#### User choices 
+
 First, you must choose the taxonomical group you want. At the moment, only marine and freshwater fishes are available.  
 Then, you must choose the spatial resolution of the map. This depends on the taxon, for freshwater fishes the resolution in the drainage basins and for marine fishes, you can choose between ecoregions or provinces.
 Then, you must choose which marker position you want your primer in. At the moment, you have the choice between 5 positions for fishes.  
 Finally, you choose your primer of interest and the interactive map prints!
 
+#### Navigating the interface
 
 You can now interact with the map. You can zoom in to find your locality in details, you can hover over areas so that the percentage of coverage is displayed simultaneously.  
 
 You can also click on a polygon of interest and the full list of species occurring  within this polygon will be displayed on the table below. In this table, you have information on the species present but also their IUCN status and whether or not they are sequenced for your chosen marker. You can filtrate your data to print only the sequenced species for example, or display only the threatened species, or both at the same time.  
+
+#### Dowload data
 
 Finally, you can download the printed table using the download button on the sidebar.
 
