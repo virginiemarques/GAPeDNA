@@ -84,3 +84,7 @@ runApp()
 Here is a GIF demonstration of how to interact with the app.
 
 ![grab-landing-page](https://github.com/virginiemarques/Gaps_shiny_quicktest/blob/master/README/Shiny_2.gif)
+
+### Credits
+
+P. Lopez (UMR MARBEC) for the illustration.
