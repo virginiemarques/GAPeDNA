@@ -25,7 +25,7 @@ choices_marker <- c("12S",  "16S",  "COI",  "CYTB", "18S")
 
 # UI
 dashboardPage(
-  dashboardHeader(title = "GAPeDNA"),
+  dashboardHeader(title = "GAPeDNA v1.0"),
   dashboardSidebar(
     fluidRow(
       column(width = 12,align="center",
