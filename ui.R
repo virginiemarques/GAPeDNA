@@ -53,10 +53,10 @@ dashboardPage(
             # Explanation
             tags$footer(tags$p("This shiny-app is developped by V. Marques and supports the following paper: ")),
             # Link for paper
-            tags$a("Link to the paper", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+            tags$a("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
             hr(), 
             # Update info
-            tags$footer(tags$p("Last updated in November 2019", class = "credit"))
+            tags$footer(tags$p("Last updated in June 2020", class = "credit"))
       ) # end of column
       ) # end of fluidrow
     
