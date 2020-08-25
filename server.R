@@ -25,20 +25,23 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish
 
 # SERVER
 function(input, output){
+  
+  # ------- UI dynamic choices --------- # 
+  
   # Geo choice
   output$control_resolution <- renderUI({
     selectInput("resolution_chosen", label = "Choose a geographic resolution", 
                 choices = organisation %>% dplyr::filter(taxa == input$taxon_chosen) %>% dplyr::select(resolution) %>% pull())
   })
+  
   # Marker choice
   output$control_marker <- renderUI({
     selectInput("the_marker", label = "Choose a primer pair", 
                 choices = primers_type %>% dplyr::filter(marker_position == input$marker_position) %>% dplyr::select(marker_single) %>% pull())
   })
-  # Explication
-  output$selected_txt <- renderText({ 
-    "Click on a polygon to display the list of corresponding species"
-  })
+  
+  # ------- Dataset --------- # 
+  
   # Select the chosen dataset & put it in reactive mode 
   datasetInput1 <- reactive({
     # Verify the input or not null before selection
@@ -77,6 +80,8 @@ function(input, output){
       left_join(., dataset_geometry()) %>%
       st_as_sf()
   })
+  
+  # -------- Map Leaflet ------ # 
   
   # The leaflet map
   output$map <- renderLeaflet({
@@ -127,6 +132,9 @@ function(input, output){
                     direction = "auto"))
   }) # End of leaflet
   
+  
+  # ------- The reactive table ------ # 
+  
   # Clickable object: create a null reactive value to store the ID of the layer
   SelectedID <- reactiveVal(NULL)
   
@@ -169,6 +177,9 @@ function(input, output){
     
   })
   
+  
+  # ------ The download button ----- # 
+  
   # Download options
   output$download <- downloadHandler(
     filename = function() {
@@ -178,4 +189,6 @@ function(input, output){
       write.csv( table_display(), file, row.names = FALSE)
     }
   )
-} # End of server
+}
+  
+  
