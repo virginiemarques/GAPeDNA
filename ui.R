@@ -24,7 +24,9 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish
 choices_marker <- c("12S",  "16S",  "COI",  "CYTB", "18S")
 
 # Panels
-panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-americas"),
+
+#### PANEL 1 ----
+panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"),
                    
                    # ----------- Sidebar ------------- # 
                    sidebarLayout(
@@ -83,6 +85,16 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-america
                    )
 )
 
+#### PANEL 2 ----
+panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
+                   
+                   br(),
+                   # Presentation
+                   h2("Coming soon"),
+
+) # End panel2
+
+#### PANEL 3 ----
 panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    
                    br(),
@@ -133,12 +145,14 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    
 ) # End panel3
 
-# UI 
+#### UI ----
 navbarPage(title = "GAPeDNA v1.0.1",
                  theme = shinytheme("flatly"),
                  
                  ## ------ PANEL 1 ----- ## 
                  panel1,
+                 ## ------ PANEL 2 ----- ## 
+                 panel2,
                  ## ------ PANEL 3 ----- ## 
                  panel3
                  
