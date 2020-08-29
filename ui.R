@@ -5,12 +5,8 @@
 library(shiny)
 library(leaflet)
 library(htmltools)
-library(htmlwidgets)
-library(sf)
-library(tidyverse)
 library(shinythemes)
 library(DT)
-library(shinydashboard)
 library(shinycssloaders)
 
 # Add a file to guide decision within the app
@@ -35,11 +31,7 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        # Fix width
                        width=2,
                        
-                       
-                       # h3("This tab has a sidebar"),
-                       
                        # Inputs 
-                       
                        # Select taxa
                        selectInput("taxon_chosen",label = "Choose a taxon",
                                    choices = unique(organisation$taxa),
@@ -62,10 +54,8 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        
                        hr(), 
                        
-                       tags$footer(tags$p("Reference database version: ENA release 138 (January 2019)")),
-                       
-                       
-                       
+                       tags$footer(tags$p("Reference database version: ENA release 138 (January 2019)"))
+
                      ), # End sidebarpanel
                      
                      # ----------- Main  ------------- # 
@@ -90,7 +80,7 @@ panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
                    
                    br(),
                    # Presentation
-                   h2("Coming soon"),
+                   h2("Coming soon")
 
 ) # End panel2
 

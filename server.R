@@ -5,13 +5,10 @@
 
 library(shiny)
 library(leaflet)
-library(htmlwidgets)
 library(htmltools)
 library(sf)
-library(tidyverse)
-library(shinythemes)
+library(dplyr)
 library(DT)
-library(shinydashboard)
 
 # Load data
 load("data/all_data_shiny.Rdata")
