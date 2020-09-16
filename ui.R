@@ -99,6 +99,7 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    # Data generation
                    h4("Here is how the data is generated:"),
                    img(src="schema_method2.png", height="30%", width="50%"),
+                   h4("In order to be correctly amplified by the in-silico PCR, sequences present in genetic databases must have the primer sequences and not less than 3 mismatches within them. Sequences uploaded without their primers sequences will fail to be amplified and might result in an under-estimation of taxonomic coverage."),
                    
                    # Addition of taxa 
                    hr(), 
