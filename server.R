@@ -14,10 +14,10 @@ library(DT)
 load("data/all_data_shiny.Rdata")
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
+organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Freshwater fish"), 
                            resolution = c("Provinces", "Ecoregions", "Basins"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
-                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"),
+                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), # name of file with information
+                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"), # names of geometry file 
                            stringsAsFactors = F)
 
 # SERVER
@@ -148,9 +148,9 @@ function(input, output){
                               filter(BasinName %in% SelectedID()) %>% # select polygon ID
                               dplyr::select(BasinName, Species_name, IUCN) %>%
                               mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
-                              mutate(Primer = input$the_marker) %>%
+                              mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
-                              dplyr::select(BasinName, Primer, Species_name, IUCN, Sequenced) %>%
+                              dplyr::select(BasinName, Marker, Species_name, IUCN, Sequenced) %>%
                               arrange(Species_name))
   # Print the DT table
   output$tableau = DT::renderDataTable({

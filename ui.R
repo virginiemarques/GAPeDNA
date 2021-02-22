@@ -54,7 +54,7 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        
                        hr(), 
                        
-                       tags$footer(tags$p("Reference database version: ENA release 138 (January 2019)"))
+                       tags$footer(tags$p("Reference database version: ENA release 143 (November 2020)"))
 
                      ), # End sidebarpanel
                      
@@ -94,12 +94,12 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    
                    # Explanations
                    h4("The app is designed to browse taxonomic coverage of online genetic database for designated metabarcoding primers."),
-                   h4("At the moment, only freshwater and marine fish primers are available within the app"),
+                   h4("At the moment, only freshwater and marine fish eDNA primers are available within the app"),
                    
                    # Data generation
                    h4("Here is how the data is generated:"),
                    img(src="schema_method2.png", height="30%", width="50%"),
-                   h4("In order to be correctly amplified by the in-silico PCR, sequences present in genetic databases must have the primer sequences and not less than 3 mismatches within them. Sequences uploaded without their primers sequences will fail to be amplified and might result in an under-estimation of taxonomic coverage."),
+                   h5("In order to be correctly amplified by the in-silico PCR, sequences present in genetic databases must have the primer sequences and not less than 3 mismatches within them. Sequences uploaded without their primers sequences will fail to be amplified and might result in an under-estimation of taxonomic coverage."),
                    
                    # Addition of taxa 
                    hr(), 
@@ -112,7 +112,7 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    br(),
                    hr(),
                    h4("The source data for the checklists are freely available"),
-                   h4("- For marine fish, with a 100*100 km2 resolution:"),
+                   h4("- For marine fish, from a 100*100 km2 resolution file:"),
                    tags$a("The marine fish foodweb is globally connected", href="https://www.nature.com/articles/s41559-019-0950-y", target="_blank"),
                    br(),
                    h4("- For freshwater fish, with a basin resolution:"),
@@ -125,13 +125,14 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    hr(),
                    h4("GAPeDNA was developped by Virginie Marques and supports the following paper:"),
                    # Link for paper
-                   tags$a("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+                   tags$p("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding"),
+                   tags$a("DOI: 10.1111/ddi.13142", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
                    br(), 
                    tags$a("The source code for the app in available in GitHub", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
                    
                    # Update info
                    br(),
-                   tags$footer(tags$p("Last updated in August 2020", class = "credit")),
+                   tags$footer(tags$p("Last updated in February 2021", class = "credit")),
                    br(),br(),br(),br()
                    
 ) # End panel3
