@@ -17,7 +17,7 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish
                            stringsAsFactors = F)
 
 # Markers 
-choices_marker <- c("12S",  "16S",  "COI",  "CYTB", "18S")
+choices_marker <- c("12S",  "16S",  "COI",  "CytB", "18S")
 
 # Panels
 

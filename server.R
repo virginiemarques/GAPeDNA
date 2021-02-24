@@ -11,13 +11,14 @@ library(dplyr)
 library(DT)
 
 # Load data
-load("data/all_data_shiny.Rdata")
+# load("data/all_data_shiny.Rdata")
+load("data/data_for_GAPeDNA.Rdata")
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Freshwater fish"), 
-                           resolution = c("Provinces", "Ecoregions", "Basins"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), # name of file with information
-                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"), # names of geometry file 
+organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
+                           resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
+                           data_chosen = c("occurence_marine_province", "occurence_marine_ecoregion", "occurence_marine_world", "occurence_freshwater_basin", "occurence_freshwater_world"), # name of file with information
+                           geometry = c("marine_province", "marine_ecoregion", "marine_world", "freshwater_basin", "freshwater_world"), # names of geometry file 
                            stringsAsFactors = F)
 
 # SERVER
@@ -73,7 +74,7 @@ function(input, output){
     req(input$the_marker)
     # Get dataset
     datasetInput1() %>%
-      dplyr::filter(Marker == input$the_marker) %>%
+      dplyr::filter(marker == input$the_marker) %>%
       left_join(., dataset_geometry()) %>%
       st_as_sf()
   })
@@ -88,7 +89,7 @@ function(input, output){
     # Labels in %
     labels <- sprintf(
       "<strong>%s</strong><br/>%g %% sequenced <br/> %g / %g sequenced species",
-      datasetInput()$BasinName,  datasetInput()$pourcent_seq, datasetInput()$nombre_seq, datasetInput()$nombre_tot) %>% 
+      datasetInput()$RegionName,  datasetInput()$pourcent_seq, datasetInput()$nombre_seq, datasetInput()$nombre_tot) %>% 
       lapply(htmltools::HTML)
     # Color palette
     conpal <- colorNumeric(palette = "YlOrRd", domain = c(0,100))
@@ -109,7 +110,7 @@ function(input, output){
                 title = "Percentage of <br>species sequenced",
                 position = "bottomright") %>%
       # Polygons
-      addPolygons(layerId=~BasinName, group = "continuous",
+      addPolygons(layerId=~RegionName, group = "continuous",
                   smoothFactor = 1, fillOpacity = 1,
                   fillColor = ~conpal(datasetInput()$pourcent_seq),
                   weight = 1,
@@ -144,14 +145,40 @@ function(input, output){
   })
   
   # The table
-  table_display <- reactive(fresh_and_marine %>%
-                              filter(BasinName %in% SelectedID()) %>% # select polygon ID
-                              dplyr::select(BasinName, Species_name, IUCN) %>%
-                              mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
+ # table_display <- reactive(fresh_and_marine %>%
+ #                             # Choose among the correct dataset for the resolution 
+ #                             # filter(dataset_resolution == input$resolution_chosen) %>%
+ #                             filter(RegionName %in% SelectedID()) %>% # select polygon ID
+ #                             dplyr::select(RegionName, Species_name, IUCN) %>%
+ #                             mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
+ #                             mutate(Marker = input$the_marker) %>%
+ #                             mutate(Sequenced = as.factor(Sequenced)) %>%                              
+ #                             dplyr::select(RegionName, Marker, Species_name, IUCN, Sequenced) %>%
+ #                             arrange(Species_name))
+ # 
+  table_display <- reactive(all_occurences_list %>%
+                              # Choose among the correct dataset for resolution & target group
+                              filter(taxa == input$taxon_chosen) %>%
+                              filter(spatial_resolution == input$resolution_chosen) %>%
+                              # select polygon ID
+                              filter(RegionName %in% SelectedID())%>% 
+                              # Link to IUCN 
+                              left_join(., all_iucn_tab[, c("Family", "Species_name", "IUCN")]) %>%
+                              mutate(IUCN = case_when(
+                                is.na(IUCN) ~ "Not evaluated", 
+                                TRUE ~ IUCN
+                              )) %>%
+                              mutate(IUCN = as.factor(IUCN)) %>%
+                              rename(Species = Species_name) %>%
+                              # Select data
+                              dplyr::select(RegionName, Species, IUCN) %>%
+                              mutate(Sequenced = ifelse(test = Species %in% list_species_name[[input$the_marker]], yes="Yes", no="No")) %>%
                               mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
-                              dplyr::select(BasinName, Marker, Species_name, IUCN, Sequenced) %>%
-                              arrange(Species_name))
+                              dplyr::select(RegionName, Marker, Species, IUCN, Sequenced) %>%
+                              arrange(Species)
+                            )
+  
   # Print the DT table
   output$tableau = DT::renderDataTable({
     # Verif
