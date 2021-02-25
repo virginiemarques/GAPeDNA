@@ -1,4 +1,11 @@
-# Source code for GAPeDNA - access it online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)  
+# Source code for GAPeDNA
+
+Access it online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)\
+Or scan this:
+
+<img src="README/QRcode.png" alt="drawing" height="150"/>
+
+&nbsp;
 
 This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers.   
 If you notice the link to be broken, please file an issue here.   
@@ -28,7 +35,7 @@ GAPeDNA allows you to interact with the spatialized species coverage map, while 
 
 ![Alt text](README/schema_appli.png?raw=true "Title")
 
-### User choices 
+### User choices
 
 First, you must choose the taxonomical group you want. At the moment, only marine and freshwater fishes are available.  
 Then, you must choose the spatial resolution of the map. This depends on the taxon, for freshwater fishes the resolution in the drainage basins and for marine fishes, you can choose between ecoregions or provinces.
@@ -88,4 +95,4 @@ Here is a GIF demonstration of how to interact with the app.
 
 ### Credits
 
-P. Lopez (UMR MARBEC) for the illustration & [C. Bernard](https://github.com/cybernar) for the online deployment on the CEFE's server. 
+P. Lopez (UMR MARBEC) for the illustration & [C. Bernard](https://github.com/cybernar) for the online deployment on the CEFE's server.
