@@ -2,9 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-
--- ## [1.0.1] - 2020-08-?
+## [1.0.1] - 2021-02-25
 
 ### Added
 
@@ -15,6 +13,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Title to add version number
 - Improve aesthetics
+- Update ENA reference database to 143 (Mars 2020)
+- Improved data organisation
 
 ## [1.0.0] - 2020-07-15
 

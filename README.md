@@ -3,9 +3,7 @@
 Access it online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)\
 Or scan this:
 
-<img src="README/QRcode.png" alt="drawing" height="150"/>
-
-&nbsp;
+<img src="README/QRcode_valid.png" alt="drawing" height="150"/>
 
 This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers.   
 If you notice the link to be broken, please file an issue here.   
@@ -29,11 +27,11 @@ At the moment, the app uses EMBL release 138 (downloaded in January 2019) as the
 
 Here is how the data is generated:
 
-![Alt text](README/schema_method2.png?raw=true "Title")
+![](README/schema_method2.png?raw=true "Title")
 
 GAPeDNA allows you to interact with the spatialized species coverage map, while choosing the relevant primer pair and wanted spatial resolution for the species checklist.
 
-![Alt text](README/schema_appli.png?raw=true "Title")
+![](README/schema_appli.png?raw=true "Title")
 
 ### User choices
 
