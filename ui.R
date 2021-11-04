@@ -78,10 +78,33 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
 #### PANEL 2 ----
 panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
                    
-                   br(),
-                   # Presentation
-                   h2("Coming soon")
-
+                   sidebarLayout(
+                     sidebarPanel(
+                       
+                       # ------------------------------ # 
+                       # Sidebar 1
+                       
+                       # Fix width
+                       width=4,
+                       
+                       # Specify somewhere: sep = "," and the name of species_ column
+                       fileInput('datafile_forseq', 'Choose a CSV file',
+                                 accept=c('csv', 'comma-separated-values','.csv')), 
+                       
+                       br(),
+                       
+                       downloadButton(outputId = 'download_sequences',"Download table with sequences", class = "butt")
+                       
+                     ), # end sidebar
+                     
+                       # ------------------------------ # 
+                       # Main 
+                     
+                       mainPanel(
+                         column(width = 6, tableOutput("table_input")),
+                         column(width = 10, DT::dataTableOutput("table_output_sequences"))
+                       ))
+                       
 ) # End panel2
 
 #### PANEL 3 ----

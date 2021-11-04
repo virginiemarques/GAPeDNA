@@ -10,9 +10,22 @@ library(sf)
 library(dplyr)
 library(DT)
 
+library(purrr)
+
 # Load data
 # load("data/all_data_shiny.Rdata")
 load("data/data_for_GAPeDNA.Rdata")
+
+# Rename the elements of the list -- to do beforehand - not in shiny
+names(list_ecopcr_df) <- map_chr(list_ecopcr_df, function(x){
+  x %>%
+    distinct(marker_name) %>% pull()
+})
+list_ecopcr_df <- map(list_ecopcr_df, function(x){
+  x %>%
+    mutate_if(is.factor, as.character) %>%
+    distinct(across(everything()))
+})
 
 # Add a file to guide decision within the app
 organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
@@ -23,6 +36,10 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", 
 
 # SERVER
 function(input, output){
+  
+  # ----------------------------------------------------------------------------------------------------------- # 
+  # PANEL 1 
+  # ----------------------------------------------------------------------------------------------------------- # 
   
   # ------- UI dynamic choices --------- # 
   
@@ -77,6 +94,7 @@ function(input, output){
       dplyr::filter(marker == input$the_marker) %>%
       left_join(., dataset_geometry()) %>%
       st_as_sf()
+    st_crs(datasetInput1()) <- st_crs(datasetInput1())
   })
   
   # -------- Map Leaflet ------ # 
@@ -213,6 +231,73 @@ function(input, output){
       write.csv( table_display(), file, row.names = FALSE)
     }
   )
+  
+  # ----------------------------------------------------------------------------------------------------------- # 
+  # PANEL 2
+  # ----------------------------------------------------------------------------------------------------------- # 
+  # Read the dataframe
+  dataframe_sequence <-reactive({
+    if (is.null(input$datafile_forseq))
+      return(NULL)                
+    data<-read.csv(input$datafile_forseq$datapath, stringsAsFactors = F)
+    data
+  })
+  
+  # Print the table
+  output$table_input <- shiny::renderTable({
+    head(dataframe_sequence(), n=2)
+  })
+  
+  # Merge species with sequence data - needs to specify the marker -- add a selection thing? 
+  # Isolate the marker chosen
+  marker_sequences <- reactive(
+    dataframe_sequence() %>%
+    select(Marker) %>% distinct(Marker) %>% pull() 
+  )
+  
+  # Select sequences within the list corresponding to the marker of interest
+  ecopcr_for_marker <- reactive({
+    list_ecopcr_df[[marker_sequences()]]
+})
+  
+  # Merge sequence and occurrence data for download
+  data_seq_download <- reactive({
+    # Check input exists
+    req(input$datafile_forseq)
+    # Proceed to add sequences
+    dataframe_sequence() %>%
+      as.data.frame() %>%
+    left_join(., as.data.frame(ecopcr_for_marker()), by=c("Species" = "species_name")) %>%
+    # Clean columns
+    select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group)
+  })
+  
+  #  Print the table w/ sequences
+  # Print it with DT - cleaner
+  output$table_output_sequences <- DT::renderDataTable({
+    data_seq_download()
+  })
+  
+  # Download the sequence table
+  # Check the name -- input thing but before the .csv
+  output$download_sequences <- downloadHandler(
+    filename = function() {
+      paste(strsplit(as.character(input$datafile_forseq), ".csv")[[1]], "_with_sequences", ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(data_seq_download(), file, row.names = FALSE)
+    }
+  )
+  
 }
-  
-  
+
+# Debug 
+# dataframe_sequence <- read.csv("/Users/virginiemarques/Downloads/Marine fish_Bylemans_12S_Tropical Northwestern # Atlantic.csv", stringsAsFactors = F)
+# marker_sequences<- "Bylemans_12S"
+# ecopcr_for_marker <- list_ecopcr_df[[marker_sequences]]
+# data_seq_download <- dataframe_sequence %>%
+#   left_join(., ecopcr_for_marker, by=c("Species" = "species_name")) %>%
+#   # Clean columns
+#   select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group)
+# 
+
