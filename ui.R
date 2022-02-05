@@ -10,10 +10,10 @@ library(DT)
 library(shinycssloaders)
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish","Freshwater fish"), 
-                           resolution = c("Provinces", "Ecoregions", "Basins"),
-                           data_chosen = c("marine_meow", "marine_ecoreg", "p3"), 
-                           geometry = c("marine_meow_geom", "marine_ecoreg_geom", "p3_geom"),
+organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
+                           resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
+                           data_chosen = c("occurence_marine_province", "occurence_marine_ecoregion", "occurence_marine_world", "occurence_freshwater_basin", "occurence_freshwater_world"), # name of file with information
+                           geometry = c("marine_province", "marine_ecoregion", "marine_world", "freshwater_basin", "freshwater_world"), # names of geometry file 
                            stringsAsFactors = F)
 
 # Markers 
@@ -54,7 +54,7 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        
                        hr(), 
                        
-                       tags$footer(tags$p("Reference database version: ENA release 143 (November 2020)"))
+                       tags$footer(tags$p("Reference database version: ENA June 2021"))
 
                      ), # End sidebarpanel
                      
@@ -129,7 +129,7 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    h4("If you wish to contribute to GAPeDNA:"),
                    h4("You can provide primer pairs sequences and spatialized checklists for another taxonomic group, and I will update the app to include them."),
                    tags$a("Contact link", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
-                   h4("Or via e-mail: virginie[.]marques[at]umontpellier.fr"),
+                   h4("Or via e-mail: virginie[.]marques[at]cefe.cnrs.fr"),
                    
                    # Data sources 
                    br(),
@@ -149,13 +149,13 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    h4("GAPeDNA was developped by Virginie Marques and supports the following paper:"),
                    # Link for paper
                    tags$p("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding"),
-                   tags$a("DOI: 10.1111/ddi.13142", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+                   tags$a("DOI: 10.1111/ddi.13142", href="https://onlinelibrary.wiley.com/doi/10.1111/ddi.13142?af=R", target="_blank"),
                    br(), 
                    tags$a("The source code for the app in available in GitHub", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
                    
                    # Update info
                    br(),
-                   tags$footer(tags$p("Last updated in February 2021", class = "credit")),
+                   tags$footer(tags$p("Last updated in February 2022", class = "credit")),
                    br(),br(),br(),br()
                    
 ) # End panel3

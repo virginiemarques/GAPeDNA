@@ -9,24 +9,15 @@ library(htmltools)
 library(sf)
 library(dplyr)
 library(DT)
-
 library(purrr)
 
 # Load data
 # load("data/all_data_shiny.Rdata")
+#load("data/data_for_GAPeDNA_old.Rdata")
 load("data/data_for_GAPeDNA.Rdata")
 
-# Rename the elements of the list -- to do beforehand - not in shiny
-names(list_ecopcr_df) <- map_chr(list_ecopcr_df, function(x){
-  x %>%
-    distinct(marker_name) %>% pull()
-})
-list_ecopcr_df <- map(list_ecopcr_df, function(x){
-  x %>%
-    mutate_if(is.factor, as.character) %>%
-    distinct(across(everything()))
-})
-
+marine_province <- st_make_valid(marine_province)
+st_is_valid(marine_province)
 # Add a file to guide decision within the app
 organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
                            resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
@@ -94,7 +85,7 @@ function(input, output){
       dplyr::filter(marker == input$the_marker) %>%
       left_join(., dataset_geometry()) %>%
       st_as_sf()
-    st_crs(datasetInput1()) <- st_crs(datasetInput1())
+    # st_crs(datasetInput1()) <- st_crs(datasetInput1())
   })
   
   # -------- Map Leaflet ------ # 
@@ -235,6 +226,7 @@ function(input, output){
   # ----------------------------------------------------------------------------------------------------------- # 
   # PANEL 2
   # ----------------------------------------------------------------------------------------------------------- # 
+  
   # Read the dataframe
   dataframe_sequence <-reactive({
     if (is.null(input$datafile_forseq))
@@ -243,7 +235,7 @@ function(input, output){
     data
   })
   
-  # Print the table
+  # Print the table - for debug only 
   output$table_input <- shiny::renderTable({
     head(dataframe_sequence(), n=2)
   })
@@ -269,13 +261,23 @@ function(input, output){
       as.data.frame() %>%
     left_join(., as.data.frame(ecopcr_for_marker()), by=c("Species" = "species_name")) %>%
     # Clean columns
-    select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group)
+    select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group) %>%
+      mutate(IUCN = as.factor(IUCN),
+             Sequenced = as.factor(Sequenced))
   })
   
   #  Print the table w/ sequences
   # Print it with DT - cleaner
   output$table_output_sequences <- DT::renderDataTable({
-    data_seq_download()
+    datatable(data_seq_download(),
+    class = 'cell-border stripe', 
+    options = list(columnDefs = list(list(className = 'dt-center', targets = "_all"))),
+    rownames = FALSE,
+    filter='top')%>%
+      formatStyle('Sequenced',
+                  backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% 
+      formatStyle('IUCN',
+                  backgroundColor = styleEqual(c("CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
   })
   
   # Download the sequence table
