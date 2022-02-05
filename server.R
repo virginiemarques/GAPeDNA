@@ -12,7 +12,6 @@ library(DT)
 library(purrr)
 
 # Load data
-# load("data/all_data_shiny.Rdata")
 #load("data/data_for_GAPeDNA_old.Rdata")
 load("data/data_for_GAPeDNA.Rdata")
 
@@ -235,11 +234,6 @@ function(input, output){
     data
   })
   
-  # Print the table - for debug only 
-  output$table_input <- shiny::renderTable({
-    head(dataframe_sequence(), n=2)
-  })
-  
   # Merge species with sequence data - needs to specify the marker -- add a selection thing? 
   # Isolate the marker chosen
   marker_sequences <- reactive(
@@ -266,18 +260,32 @@ function(input, output){
              Sequenced = as.factor(Sequenced))
   })
   
-  #  Print the table w/ sequences
-  # Print it with DT - cleaner
+  # Print table with DT - handle long sequences (dont print if too long)
+  
   output$table_output_sequences <- DT::renderDataTable({
-    datatable(data_seq_download(),
-    class = 'cell-border stripe', 
-    options = list(columnDefs = list(list(className = 'dt-center', targets = "_all"))),
-    rownames = FALSE,
-    filter='top')%>%
+    datatable(data_seq_download(), 
+      class = 'cell-border stripe', 
+      rownames = FALSE,
+      caption = htmltools::tags$caption(
+        style = 'caption-side: bottom; text-align: center;',
+        'Sequences are truncated for visualization purposes but are complete in the downloaded file'),
+      filter='top',
+       options = list(
+         columnDefs = list(list(
+           className = 'dt-center',
+           targets = "_all",
+           filter='top', 
+           render = JS(
+             "function(data, type, row, meta) {",
+             "return type === 'display' && typeof data === 'string' && data.length > 40 ?",
+             "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+             "}")
+         ))), callback = JS('table.page(3).draw(false);')) %>%
       formatStyle('Sequenced',
                   backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% 
       formatStyle('IUCN',
-                  backgroundColor = styleEqual(c("CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), c('#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
+                  backgroundColor = styleEqual(c("CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), 
+                                               c('#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
   })
   
   # Download the sequence table

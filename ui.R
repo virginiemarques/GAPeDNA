@@ -88,7 +88,7 @@ panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
                        width=4,
                        
                        # Specify somewhere: sep = "," and the name of species_ column
-                       fileInput('datafile_forseq', 'Choose a CSV file',
+                       fileInput('datafile_forseq', 'Choose a CSV file (generated from the World maps pane)',
                                  accept=c('csv', 'comma-separated-values','.csv')), 
                        
                        br(),
@@ -101,7 +101,9 @@ panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
                        # Main 
                      
                        mainPanel(
-                         column(width = 6, tableOutput("table_input")),
+                         h5("Open a .csv file for the World maps panel to display a table with their sequences and number of mismatches on each primer"),
+                         h5("You can search species name as well as sequences on the search box, and download the full table"),
+                         br(),br(),
                          column(width = 10, DT::dataTableOutput("table_output_sequences"))
                        ))
                        
