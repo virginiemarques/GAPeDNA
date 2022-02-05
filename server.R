@@ -180,7 +180,7 @@ function(input, output){
                               rename(Species = Species_name) %>%
                               # Select data
                               dplyr::select(RegionName, Species, IUCN) %>%
-                              mutate(Sequenced = ifelse(test = Species %in% list_species_name[[input$the_marker]], yes="Yes", no="No")) %>%
+                              mutate(Sequenced = ifelse(test = Species %in% c(list_species_name[[input$the_marker]], list_species_name_fish_verif[[input$the_marker]]), yes="Yes", no="No")) %>%
                               mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
                               dplyr::select(RegionName, Marker, Species, IUCN, Sequenced) %>%
