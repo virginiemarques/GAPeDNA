@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2022-02-05
+## [1.1.1] - 2022-02-28
 
 ### Added 
 
@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed 
 
 - Update to reference database ENA June 2021
+- Updated infos pane
 
 ## [1.0.1] - 2021-02-25
 

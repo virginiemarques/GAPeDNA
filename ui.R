@@ -54,7 +54,7 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        
                        hr(), 
                        
-                       tags$footer(tags$p("Reference database version: ENA June 2021"))
+                       tags$footer(tags$p("Reference database version: ENA December 2021"))
 
                      ), # End sidebarpanel
                      
@@ -103,6 +103,7 @@ panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
                        mainPanel(
                          h5("Open a .csv file for the World maps panel to display a table with their sequences and number of mismatches on each primer"),
                          h5("You can search species name as well as sequences on the search box, and download the full table"),
+                         h5("A high number of mismatches can lead to decrease chances of amplification"),
                          br(),br(),
                          column(width = 10, DT::dataTableOutput("table_output_sequences"))
                        ))
@@ -112,58 +113,65 @@ panel2 <- tabPanel("Extract sequences",fluid = TRUE, icon = icon("dna"),
 #### PANEL 3 ----
 panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    
+                   includeCSS("www/mode.css"),
                    br(),
                    
                    # Presentation
                    h2("Welcome to GAPeDNA !"),
+                   br(),
                    
                    # Explanations
-                   h4("The app is designed to browse taxonomic coverage of online genetic database for designated metabarcoding primers."),
-                   h4("At the moment, only freshwater and marine fish eDNA primers are available within the app"),
+                   h4("The app is designed to browse taxonomic coverage of online genetic database for designated metabarcoding primers, and download the sequences."),
+                   h4("Taxa covered include freshwater and marine fish at the moment."),
                    
                    # Data generation
                    h4("Here is how the data is generated:"),
-                   img(src="schema_method2.png", height="30%", width="50%"),
-                   h5("In order to be correctly amplified by the in-silico PCR, sequences present in genetic databases must have the primer sequences and not less than 3 mismatches within them. Sequences uploaded without their primers sequences will fail to be amplified and might result in an under-estimation of taxonomic coverage."),
+                   img(src="schema_method2.png", height="20%", width="40%"),
+                   # img(src="schema_method2.png", height="30%", width="50%"),
+                   h5( span("Important:", style = "font-weight: bold"), "Sequences in online databases must have the primer sequences, otherwise they will fail to be in-silico PCR amplified.", style="text-align: center"),
+                   h5(style="text-align: center", "This might lead to under-estimated taxonomic coverage if many sequences are present but lack primers. Sequences are amplified if primer sequences have less than 3 mismatches on each primer."),
                    
                    # Addition of taxa 
                    hr(), 
-                   h4("If you wish to contribute to GAPeDNA:"),
-                   h4("You can provide primer pairs sequences and spatialized checklists for another taxonomic group, and I will update the app to include them."),
-                   tags$a("Contact link", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
-                   h4("Or via e-mail: virginie[.]marques[at]cefe.cnrs.fr"),
+                   h4("Contributions to GAPeDNA:", style = "font-weight: bold"),
+                   h5("We can expand the taxonomic breath covered by GAPeDNA with your help."),
+                   h5("If you have spatialized checklists and/or a list of metabarcoding primer pairs for additional taxonomic groups freely available, please contact me, I can update the app and include it."),
+                   h5("E-mail: virginie[.]marques[at]cefe.cnrs.fr"),
                    
                    # Data sources 
                    br(),
                    hr(),
-                   h4("The source data for the checklists are freely available"),
-                   h4("- For marine fish, from a 100*100 km2 resolution file:"),
+                   h4("Checklist source data:", style="font-weight: bold"),
+                   h5("- Marine fish:"),
                    tags$a("The marine fish foodweb is globally connected", href="https://www.nature.com/articles/s41559-019-0950-y", target="_blank"),
                    br(),
-                   h4("- For freshwater fish, with a basin resolution:"),
+                   h5("- Freshwater fish:"),
                    tags$a("A global database on freshwater fish species occurrence in drainage basins", href="https://www.nature.com/articles/sdata2017141", target="_blank"),
                    br(),
-                   h4("Fish name were verified using the fishbase taxonomy"),
+                   h5("Fish name were verified using the fishbase taxonomy"),
                    
                    # Info on dev. team
                    br(),
                    hr(),
-                   h4("GAPeDNA was developped by Virginie Marques and supports the following paper:"),
+                   h4("References", style="font-weight: bold"),
+                   h5("Developer and maintainer: Virginie Marques."),
+                   br(),
+                   h5("GAPeDNA supports the following paper:"),
                    # Link for paper
-                   tags$p("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding"),
-                   tags$a("DOI: 10.1111/ddi.13142", href="https://onlinelibrary.wiley.com/doi/10.1111/ddi.13142?af=R", target="_blank"),
+                   tags$a("GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding", 
+                          href="https://onlinelibrary.wiley.com/doi/10.1111/ddi.13142?af=R", target="_blank"),
                    br(), 
-                   tags$a("The source code for the app in available in GitHub", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
+                   tags$a("Source code", href="https://github.com/virginiemarques/GAPeDNA", target="_blank"),
                    
                    # Update info
                    br(),
-                   tags$footer(tags$p("Last updated in February 2022", class = "credit")),
+                   tags$footer(tags$p("Last updated in February 2022", class = "credit", style="text-align: left; font-style: italic; margin: 1% 5%")),
                    br(),br(),br(),br()
                    
 ) # End panel3
 
 #### UI ----
-navbarPage(title = "GAPeDNA v1.0.1",
+navbarPage(title = "GAPeDNA v1.1.1",
                  theme = shinytheme("flatly"),
                  
                  ## ------ PANEL 1 ----- ## 
