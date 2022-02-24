@@ -1,9 +1,6 @@
 # Source code for GAPeDNA
 
-Access it online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)\
-Or scan this:
-
-<img src="README/QRcode_valid.png" alt="drawing" height="150"/>
+Access the app online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)\
 
 This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers.   
 If you notice the link to be broken, please file an issue here.   
@@ -13,17 +10,18 @@ Alternatively, you can also access the app in your local machine from the source
 
 ## New taxa addition
 
-To propose a new taxon to be added in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary informations:
+At the moment, GAPeDNA works for marine and freshwater fish.   
+To propose a new taxon for addition in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary information:
 
-* Primers amplifying the taxon, or a list of species amplified by each primer if you already performed the virtual PCRs
+* Primer pairs amplifying the taxon
 * One or several global spatialized checklists with relevant resolution
 
-If the information is correct, the app will be updated to implement your suggestion.
+With only those two information, the app will be updated to implement your suggestion.
 
 ## How to use GAPeDNA
 
 GAPeDNA allows you to visualize current spatialized gaps in species coverage for a given taxonomical group within a reference database for a variety of primers.  
-At the moment, the app uses EMBL release 138 (downloaded in January 2019) as the reference database and will be frequently updated.  
+At the moment, the app uses ENA/EMBL from December 2021 (downloaded in February 2022) as the reference database and will be frequently updated.  
 
 Here is how the data is generated:
 
@@ -35,23 +33,27 @@ GAPeDNA allows you to interact with the spatialized species coverage map, while 
 
 ### User choices
 
+#### World maps pane
 First, you must choose the taxonomical group you want. At the moment, only marine and freshwater fishes are available.  
 Then, you must choose the spatial resolution of the map. This depends on the taxon, for freshwater fishes the resolution in the drainage basins and for marine fishes, you can choose between ecoregions or provinces.
 Then, you must choose which marker position you want your primer in. At the moment, you have the choice between 5 positions for fishes.  
 Finally, you choose your primer of interest and the interactive map prints!
 
-### Navigating the interface
+##### Navigating the interface
 
 You can now interact with the map. You can zoom in to find your locality in details, you can hover over areas so that the percentage of coverage is displayed simultaneously.  
 
 You can also click on a polygon of interest and the full list of species occurring  within this polygon will be displayed on the table below. In this table, you have information on the species present but also their IUCN status and whether or not they are sequenced for your chosen marker. You can filtrate your data to print only the sequenced species for example, or display only the threatened species, or both at the same time.  
 
-### Dowload data
+##### Dowload data
 
 Finally, you can download the printed table using the download button on the sidebar.
 
 If you are interested in the full data to investigate the comparison in primer coverage on your own, you can install the app locally and load the full dataset in R.
 
+#### Sequence extration pane
+You have to upload a `csv` file generated from the `World maps` pane.  
+The app will show a table with all species including the sequence corresponding the marker you chose, with or without the primer sequences and the number of mismatches on each primer. 
 
 ## Local display of the app
 
@@ -93,4 +95,5 @@ Here is a GIF demonstration of how to interact with the app.
 
 ### Credits
 
-P. Lopez (UMR MARBEC) for the illustration & [C. Bernard](https://github.com/cybernar) for the online deployment on the CEFE's server.
+P. Lopez (UMR MARBEC) for the illustration & [C. Bernard](https://github.com/cybernar) & M.Q. Quidoz for the online deployment on the CEFE's server.
+
