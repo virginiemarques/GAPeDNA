@@ -15,8 +15,8 @@ library(purrr)
 #load("data/data_for_GAPeDNA_old.Rdata")
 load("data/data_for_GAPeDNA.Rdata")
 
-marine_province <- st_make_valid(marine_province)
-st_is_valid(marine_province)
+#marine_province <- st_make_valid(marine_province)
+
 # Add a file to guide decision within the app
 organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
                            resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
