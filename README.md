@@ -1,6 +1,6 @@
 # Source code for GAPeDNA
 
-Access the app online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)\
+Access the app online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)
 
 This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers.   
 If you notice the link to be broken, please file an issue here.   
