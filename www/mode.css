@@ -1,0 +1,56 @@
+/* Get a fancy font from Google Fonts */
+  /*@import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
+
+/*body {
+/*  background-color: black;
+/*  color: white; /* text color */
+/*}
+
+/* Change all text */
+  h2 {
+    text-align: center;
+    margin: auto 5%;
+  }
+  
+  h4 {
+    text-align: left;
+    margin: 10px 5%;
+  }
+  
+  h5 {
+  text-align: left;
+      margin: 5px 5%;
+  }
+
+  tags {
+  text-align: left;
+      margin: auto 5%;
+  }
+  
+    a {
+  text-align: left;
+      margin: auto 5%;
+      color: #2096A8;
+  }
+  
+  a:hover {
+  background-color: #2096A8;
+  color: white;
+  font-style: normal;
+  text-decoration: none;
+}
+  
+/* Make text visible on inputs */
+ /* .shiny-input-container {
+ /*   color: #474747;
+ /* }
+ 
+ /* center image */
+ img{
+ display: block;
+ margin: 0px auto;
+}
+  
+  
+/*  P { text-align: center }
+/* H2 { text-align: center }

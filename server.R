@@ -9,11 +9,14 @@ library(htmltools)
 library(sf)
 library(dplyr)
 library(DT)
+library(purrr)
 
 # Load data
-# load("data/all_data_shiny.Rdata")
+#load("data/data_for_GAPeDNA_old.Rdata")
 load("data/data_for_GAPeDNA.Rdata")
 
+marine_province <- st_make_valid(marine_province)
+st_is_valid(marine_province)
 # Add a file to guide decision within the app
 organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
                            resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
@@ -23,6 +26,10 @@ organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", 
 
 # SERVER
 function(input, output){
+  
+  # ----------------------------------------------------------------------------------------------------------- # 
+  # PANEL 1 
+  # ----------------------------------------------------------------------------------------------------------- # 
   
   # ------- UI dynamic choices --------- # 
   
@@ -77,6 +84,7 @@ function(input, output){
       dplyr::filter(marker == input$the_marker) %>%
       left_join(., dataset_geometry()) %>%
       st_as_sf()
+    # st_crs(datasetInput1()) <- st_crs(datasetInput1())
   })
   
   # -------- Map Leaflet ------ # 
@@ -172,7 +180,7 @@ function(input, output){
                               rename(Species = Species_name) %>%
                               # Select data
                               dplyr::select(RegionName, Species, IUCN) %>%
-                              mutate(Sequenced = ifelse(test = Species %in% list_species_name[[input$the_marker]], yes="Yes", no="No")) %>%
+                              mutate(Sequenced = ifelse(test = Species %in% c(list_species_name[[input$the_marker]], list_species_name_fish_verif[[input$the_marker]]), yes="Yes", no="No")) %>%
                               mutate(Marker = input$the_marker) %>%
                               mutate(Sequenced = as.factor(Sequenced)) %>%                              
                               dplyr::select(RegionName, Marker, Species, IUCN, Sequenced) %>%
@@ -213,6 +221,93 @@ function(input, output){
       write.csv( table_display(), file, row.names = FALSE)
     }
   )
+  
+  # ----------------------------------------------------------------------------------------------------------- # 
+  # PANEL 2
+  # ----------------------------------------------------------------------------------------------------------- # 
+  
+  # Read the dataframe
+  dataframe_sequence <-reactive({
+    if (is.null(input$datafile_forseq))
+      return(NULL)                
+    data<-read.csv(input$datafile_forseq$datapath, stringsAsFactors = F)
+    data
+  })
+  
+  # Merge species with sequence data - needs to specify the marker -- add a selection thing? 
+  # Isolate the marker chosen
+  marker_sequences <- reactive(
+    dataframe_sequence() %>%
+    select(Marker) %>% distinct(Marker) %>% pull() 
+  )
+  
+  # Select sequences within the list corresponding to the marker of interest
+  ecopcr_for_marker <- reactive({
+    list_ecopcr_df[[marker_sequences()]]
+})
+  
+  # Merge sequence and occurrence data for download
+  data_seq_download <- reactive({
+    # Check input exists
+    req(input$datafile_forseq)
+    # Proceed to add sequences
+    dataframe_sequence() %>%
+      as.data.frame() %>%
+    left_join(., as.data.frame(ecopcr_for_marker()), by=c("Species" = "species_name")) %>%
+    # Clean columns
+    select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group) %>%
+      mutate(IUCN = as.factor(IUCN),
+             Sequenced = as.factor(Sequenced))
+  })
+  
+  # Print table with DT - handle long sequences (dont print if too long)
+  
+  output$table_output_sequences <- DT::renderDataTable({
+    datatable(data_seq_download(), 
+      class = 'cell-border stripe', 
+      rownames = FALSE,
+      caption = htmltools::tags$caption(
+        style = 'caption-side: bottom; text-align: center;',
+        'Sequences are truncated for visualization purposes but are complete in the downloaded file'),
+      filter='top',
+       options = list(
+         columnDefs = list(list(
+           className = 'dt-center',
+           targets = "_all",
+           filter='top', 
+           render = JS(
+             "function(data, type, row, meta) {",
+             "return type === 'display' && typeof data === 'string' && data.length > 40 ?",
+             "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+             "}")
+         ))), callback = JS('table.page(3).draw(false);')) %>%
+      formatStyle('Sequenced',
+                  backgroundColor = styleEqual(c("No","Yes"), c('#F7FBFF', '#abf9bc'))) %>% 
+      formatStyle('IUCN',
+                  backgroundColor = styleEqual(c("CR", "EN", "VU", "NT", "LC","Not evaluated", "DD"), 
+                                               c('#f7c283', '#f7d383', '#f7e183', '#f7ef83', '#abf9bc', '#F7FBFF', '#F7FBFF')))
+  })
+  
+  # Download the sequence table
+  # Check the name -- input thing but before the .csv
+  output$download_sequences <- downloadHandler(
+    filename = function() {
+      paste(strsplit(as.character(input$datafile_forseq), ".csv")[[1]], "_with_sequences", ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(data_seq_download(), file, row.names = FALSE)
+    }
+  )
+  
 }
-  
-  
+
+# Debug 
+# dataframe_sequence <- read.csv("/Users/virginiemarques/Downloads/Marine fish_Bylemans_12S_Tropical Northwestern # Atlantic.csv", stringsAsFactors = F)
+# marker_sequences<- "Bylemans_12S"
+# ecopcr_for_marker <- list_ecopcr_df[[marker_sequences]]
+# data_seq_download <- dataframe_sequence %>%
+#   left_join(., ecopcr_for_marker, by=c("Species" = "species_name")) %>%
+#   # Clean columns
+#   select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group)
+# 
+
