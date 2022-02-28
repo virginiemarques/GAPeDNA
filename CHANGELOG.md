@@ -4,14 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.1] - 2022-02-25
 
-### Added 
-
-- Operational extract sequence pane 
-
 ### Changed 
 
 - Update to reference database ENA June 2021
 - Updated infos pane
+
+## [1.1.0] - 2022-02-10
+
+### Added 
+
+- Operational extract sequence pane 
 
 ## [1.0.1] - 2021-02-25
 
