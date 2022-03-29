@@ -129,7 +129,7 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    img(src="schema_method2.png", height="20%", width="40%"),
                    # img(src="schema_method2.png", height="30%", width="50%"),
                    h5( span("Important:", style = "font-weight: bold"), "Sequences in online databases must have the primer sequences, otherwise they will fail to be in-silico PCR amplified.", style="text-align: center"),
-                   h5(style="text-align: center", "This might lead to under-estimated taxonomic coverage if many sequences are present but lack primers. Sequences are amplified if primer sequences have less than 3 mismatches on each primer."),
+                   h5(style="text-align: center", "This might lead to under-estimated taxonomic coverage if many sequences are present but lack primers. Sequences are amplified if primer sequences have up to 3 mismatches maximum, for each primer."),
                    
                    # Addition of taxa 
                    hr(), 
