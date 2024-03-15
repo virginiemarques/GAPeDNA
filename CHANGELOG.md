@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2024-03-13
+
+- Update to reference database ENA June 2023 (downloaded November 2023)
+
 ## [1.1.1] - 2022-02-25
 
 ### Changed 
@@ -24,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - Empty extract sequences pane
 
 ### Changed
+
 - Title to add version number
 - Improve aesthetics
 - Update ENA reference database to 143 (Mars 2020)

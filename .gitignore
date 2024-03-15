@@ -6,3 +6,4 @@ test/
 reprex/
 *Rproj
 data/*R
+.DS_Store

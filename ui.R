@@ -54,7 +54,7 @@ panel1 <- tabPanel(title = "World maps",fluid = TRUE, icon = icon("globe-africa"
                        
                        hr(), 
                        
-                       tags$footer(tags$p("Reference database version: ENA December 2021"))
+                       tags$footer(tags$p("Reference database version: ENA June 2023"))
 
                      ), # End sidebarpanel
                      
@@ -167,13 +167,13 @@ panel3 <- tabPanel("Infos",fluid = TRUE, icon = icon("info-circle"),
                    
                    # Update info
                    br(),
-                   tags$footer(tags$p("Last updated in February 2022", class = "credit", style="text-align: left; font-style: italic; margin: 1% 5%")),
+                   tags$footer(tags$p("Last updated in March 2024", class = "credit", style="text-align: left; font-style: italic; margin: 1% 5%")),
                    br(),br(),br(),br()
                    
 ) # End panel3
 
 #### UI ----
-navbarPage(title = "GAPeDNA v1.1.1",
+navbarPage(title = "GAPeDNA v1.1.2",
                  theme = shinytheme("flatly"),
                  
                  ## ------ PANEL 1 ----- ## 

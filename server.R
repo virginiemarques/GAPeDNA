@@ -153,17 +153,6 @@ function(input, output){
   })
   
   # The table
- # table_display <- reactive(fresh_and_marine %>%
- #                             # Choose among the correct dataset for the resolution 
- #                             # filter(dataset_resolution == input$resolution_chosen) %>%
- #                             filter(RegionName %in% SelectedID()) %>% # select polygon ID
- #                             dplyr::select(RegionName, Species_name, IUCN) %>%
- #                             mutate(Sequenced = ifelse(test = Species_name %in% all_primers[[input$the_marker]], yes="Yes", no="No")) %>%
- #                             mutate(Marker = input$the_marker) %>%
- #                             mutate(Sequenced = as.factor(Sequenced)) %>%                              
- #                             dplyr::select(RegionName, Marker, Species_name, IUCN, Sequenced) %>%
- #                             arrange(Species_name))
- # 
   table_display <- reactive(all_occurences_list %>%
                               # Choose among the correct dataset for resolution & target group
                               filter(taxa == input$taxon_chosen) %>%
