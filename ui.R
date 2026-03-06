@@ -208,7 +208,7 @@ panel3 <- tabPanel("About", fluid = TRUE, icon = icon("info-circle"),
         the app."
       ),
       tags$p(icon("envelope"), " ",
-        tags$a("virginie.marques@usys.ethz.ch",
+        tags$a("virginie[.]marques[at]usys[.]ethz[.]ch",
                href = "mailto:virginie.marques@usys.ethz.ch")
       )
     ),
