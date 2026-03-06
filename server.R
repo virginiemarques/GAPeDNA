@@ -12,17 +12,33 @@ library(DT)
 library(purrr)
 
 # Load data
-#load("data/data_for_GAPeDNA_old.Rdata")
-load("data/data_for_GAPeDNA.Rdata")
-
-#marine_province <- st_make_valid(marine_province)
+load("data/data_for_GAPeDNA_maps.Rdata")
+load("data/data_for_GAPeDNA_ref.Rdata")
 
 # Add a file to guide decision within the app
-organisation <- data.frame(taxa = c("Marine fish","Marine fish", "Marine fish", "Freshwater fish", "Freshwater fish"), 
-                           resolution = c("Provinces", "Ecoregions", "World", "Basins", "World"),
-                           data_chosen = c("occurence_marine_province", "occurence_marine_ecoregion", "occurence_marine_world", "occurence_freshwater_basin", "occurence_freshwater_world"), # name of file with information
-                           geometry = c("marine_province", "marine_ecoregion", "marine_world", "freshwater_basin", "freshwater_world"), # names of geometry file 
-                           stringsAsFactors = F)
+organisation <- data.frame(
+  taxa = c(
+    "Marine fish", "Marine fish", "Marine fish",
+    "Freshwater fish", "Freshwater fish",
+    "Elasmobranches", "Elasmobranches", "Elasmobranches", "Elasmobranches"
+  ),
+  resolution = c(
+    "Provinces", "Ecoregions", "World",
+    "Basins", "World",
+    "Ecoregions", "Provinces", "Basins", "World"
+  ),
+  data_chosen = c(
+    "occurence_marine_province", "occurence_marine_ecoregion", "occurence_marine_world",
+    "occurence_freshwater_basin", "occurence_freshwater_world",
+    "occurence_shark_ecoregion", "occurence_shark_province", "occurence_shark_basin", "occurence_shark_world"
+  ),
+  geometry = c(
+    "marine_province", "marine_ecoregion", "marine_world",
+    "freshwater_basin", "freshwater_world",
+    "marine_ecoregion", "marine_province", "freshwater_basin", "marine_world"
+  ),
+  stringsAsFactors = FALSE
+)
 
 # SERVER
 function(input, output){
@@ -88,7 +104,7 @@ function(input, output){
   })
   
   # -------- Map Leaflet ------ # 
-  
+
   # The leaflet map
   output$map <- renderLeaflet({
     # Verif
@@ -103,39 +119,43 @@ function(input, output){
     conpal <- colorNumeric(palette = "YlOrRd", domain = c(0,100))
     # Print map
     map <- leaflet(datasetInput()) %>%
-      # Background
-      addTiles() %>%
-      # Background
-      #addProviderTiles("Thunderforest.Landscape", options = providerTileOptions(minZoom = 1, maxZoom = 500))  %>%
-      addProviderTiles("Esri.WorldStreetMap", options = providerTileOptions(minZoom = 1, maxZoom = 500))  %>%
-      clearBounds() %>%
-      # View
-      setView( lat=10, lng=0 , zoom=2) %>%
-      # Legend
-      addLegend(conpal, 
-                c(0,100),
-                opacity = 1, 
-                title = "Percentage of <br>species sequenced",
-                position = "bottomright") %>%
-      # Polygons
-      addPolygons(layerId=~RegionName, group = "continuous",
-                  smoothFactor = 1, fillOpacity = 1,
-                  fillColor = ~conpal(datasetInput()$pourcent_seq),
-                  weight = 1,
-                  opacity = 1,
-                  color = "grey",
-                  dashArray = "1",
-                  highlight = highlightOptions(
-                    weight = 5,
-                    color = "#666",
-                    dashArray = "",
-                    fillOpacity = 1,
-                    bringToFront = TRUE),
-                  label = labels,
-                  labelOptions = labelOptions(
-                    style = list("font-weight" = "normal", padding = "3px 8px"),
-                    textsize = "15px",
-                    direction = "auto"))
+      addProviderTiles(
+        "Esri.WorldStreetMap",
+        options = providerTileOptions(
+          minZoom = 1,
+          maxZoom = 500
+        )
+      ) %>%
+      setView(lat = 10, lng = 0, zoom = 2) %>%
+      addLegend(
+        conpal, 
+        c(0,100),
+        opacity = 1, 
+        title = "Percentage of <br>species sequenced",
+        position = "bottomright"
+      ) %>%
+      addPolygons(
+        layerId = ~RegionName, group = "continuous",
+        smoothFactor = 1, fillOpacity = 1,
+        fillColor = ~conpal(datasetInput()$pourcent_seq),
+        weight = 1,
+        opacity = 1,
+        color = "grey",
+        dashArray = "1",
+        highlight = highlightOptions(
+          weight = 5,
+          color = "#666",
+          dashArray = "",
+          fillOpacity = 1,
+          bringToFront = TRUE
+        ),
+        label = labels,
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px",
+          direction = "auto"
+        )
+      )
   }) # End of leaflet
   
   
@@ -232,7 +252,7 @@ function(input, output){
   
   # Select sequences within the list corresponding to the marker of interest
   ecopcr_for_marker <- reactive({
-    list_ecopcr_df[[marker_sequences()]]
+    list_insilico_df[[marker_sequences()]]
 })
   
   # Merge sequence and occurrence data for download
@@ -244,7 +264,7 @@ function(input, output){
       as.data.frame() %>%
     left_join(., as.data.frame(ecopcr_for_marker()), by=c("Species" = "species_name")) %>%
     # Clean columns
-    select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group) %>%
+    select(-taxid, -genus_name, -family_name, -order_name, -class_name, -marker_name, -taxa_group) %>%
       mutate(IUCN = as.factor(IUCN),
              Sequenced = as.factor(Sequenced))
   })
@@ -289,14 +309,3 @@ function(input, output){
   )
   
 }
-
-# Debug 
-# dataframe_sequence <- read.csv("/Users/virginiemarques/Downloads/Marine fish_Bylemans_12S_Tropical Northwestern # Atlantic.csv", stringsAsFactors = F)
-# marker_sequences<- "Bylemans_12S"
-# ecopcr_for_marker <- list_ecopcr_df[[marker_sequences]]
-# data_seq_download <- dataframe_sequence %>%
-#   left_join(., ecopcr_for_marker, by=c("Species" = "species_name")) %>%
-#   # Clean columns
-#   select(-taxid, -genus_name, -family_name, -marker_name,-taxa_group)
-# 
-

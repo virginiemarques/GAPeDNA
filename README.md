@@ -1,99 +1,123 @@
-# Source code for GAPeDNA
+# GAPeDNA
 
-Access the app online [here](https://shiny.cefe.cnrs.fr/GAPeDNA/)
+[![DOI](https://img.shields.io/badge/DOI-10.1111%2Fddi.13142-blue)](https://onlinelibrary.wiley.com/doi/10.1111/ddi.13142?af=R)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Shiny](https://img.shields.io/badge/Shiny-live%20app-brightgreen)](https://shiny.cefe.cnrs.fr/GAPeDNA/)
 
-This repo presents the source code of our web-app interface GAPeDNA, investigating database gaps in eDNA metabarcoding primers.   
-If you notice the link to be broken, please file an issue here.   
-The most probable reason is an ungoing server maintenance, unlikely to last for more than a couple days.   
+**GAPeDNA** is an interactive web application for exploring taxonomic coverage gaps in eDNA metabarcoding reference databases. For a given primer pair and taxonomic group, it maps the proportion of species represented in the reference database across spatial regions worldwide.
 
-Alternatively, you can also access the app in your local machine from the source code as further explained.
+🌐 **Live app:** [shiny.cefe.cnrs.fr/GAPeDNA](https://shiny.cefe.cnrs.fr/GAPeDNA/)
 
-## New taxa addition
+> If the link is unavailable, the server may be under maintenance (typically resolved within a few days). Please [open an issue](https://github.com/virginiemarques/GAPeDNA/issues) if the outage persists.
 
-At the moment, GAPeDNA works for marine and freshwater fish.   
-To propose a new taxon for addition in GAPeDNA, please file an issue labelled 'enhancement' in this repo stating the wanted group, and provide the necessary information:
+---
 
-* Primer pairs amplifying the taxon
-* One or several global spatialized checklists with relevant resolution
+## Overview
 
-With only those two information, the app will be updated to implement your suggestion.
+![](README/schema_method2.png)
 
-## How to use GAPeDNA
+Reference sequences can now be recovered even in the absence of the primer binding sites by in silico PCR. GAPeDNA accounts for up to 3 mismatches per primer.
 
-GAPeDNA allows you to visualize current spatialized gaps in species coverage for a given taxonomical group within a reference database for a variety of primers.  
-At the moment, the app uses ENA/EMBL from December 2021 (downloaded in February 2022) as the reference database and will be frequently updated.  
+The database is updated periodically. Current version: **MIDORI2 GenBank 269 (2025-12-09)**.
 
-Here is how the data is generated:
+---
 
-![](README/schema_method2.png?raw=true "Title")
+## Features
 
-GAPeDNA allows you to interact with the spatialized species coverage map, while choosing the relevant primer pair and wanted spatial resolution for the species checklist.
+- **Interactive choropleth maps** — visualise per-region primer coverage as a percentage of species with a reference sequence
+- **Species table** — click any polygon to display the full species list for that region, including IUCN conservation status and sequencing status for the selected marker
+- **Sequence extraction** — upload a downloaded species table to retrieve the corresponding reference sequences and per-primer mismatch counts
+- **Download** — export species tables and sequence data as CSV
 
-![](README/schema_appli.png?raw=true "Title")
+---
 
-### User choices
+## Taxonomic groups & spatial resolutions
 
-#### World maps pane
-First, you must choose the taxonomical group you want. At the moment, only marine and freshwater fishes are available.  
-Then, you must choose the spatial resolution of the map. This depends on the taxon, for freshwater fishes the resolution in the drainage basins and for marine fishes, you can choose between ecoregions or provinces.
-Then, you must choose which marker position you want your primer in. At the moment, you have the choice between 5 positions for fishes.  
-Finally, you choose your primer of interest and the interactive map prints!
+| Group | Spatial resolutions | Checklist source |
+|---|---|---|
+| Marine fish | Ecoregions, Provinces, World | [Barrier et al. 2020](https://www.nature.com/articles/s41559-019-0950-y) |
+| Freshwater fish | Drainage basins, World | [Tedesco et al. 2017](https://www.nature.com/articles/sdata2017141) |
+| Elasmobranchs (sharks & rays) | Ecoregions, Provinces, Basins, World | [IUCN Red List spatial data](https://www.iucnredlist.org/resources/spatial-data-download) |
 
-##### Navigating the interface
+---
 
-You can now interact with the map. You can zoom in to find your locality in details, you can hover over areas so that the percentage of coverage is displayed simultaneously.  
+## How to use the app
 
-You can also click on a polygon of interest and the full list of species occurring  within this polygon will be displayed on the table below. In this table, you have information on the species present but also their IUCN status and whether or not they are sequenced for your chosen marker. You can filtrate your data to print only the sequenced species for example, or display only the threatened species, or both at the same time.  
+### World maps pane
 
-##### Dowload data
+1. **Choose a taxon** — marine fish, freshwater fish, or elasmobranchs
+2. **Choose a spatial resolution** — available options update automatically based on the taxon
+3. **Choose a mitochondrial marker position** — 12S, 16S, COI, CytB, or 18S
+4. **Choose a primer pair** — the interactive map renders immediately
 
-Finally, you can download the printed table using the download button on the sidebar.
+Hover over any polygon to display the percentage of species sequenced. Click a polygon to load the full species list in the table below, with IUCN status and sequencing status per species. The table supports filtering and sorting. Use the **Download** button to export it as CSV.
 
-If you are interested in the full data to investigate the comparison in primer coverage on your own, you can install the app locally and load the full dataset in R.
+### Sequence extraction pane
 
-#### Sequence extration pane
-You have to upload a `csv` file generated from the `World maps` pane.  
-The app will show a table with all species including the sequence corresponding the marker you chose, with or without the primer sequences and the number of mismatches on each primer. 
+Upload a CSV file exported from the World maps pane. The app will join each species to its reference sequence for the corresponding marker and display per-primer mismatch counts. The full table (including complete sequences) can be downloaded.
 
-## Local display of the app
-
-You need to have R installed in your local machine.  
-Please make sure the necessary packages are installed in your machine and up to date, otherwise some errors might occur.
-
-1) Using GitHub
-
-You can load the app just by calling the GitHub repo in a local R session. Depending on your internet connexion, it can take up to a few minutes to fully load.   
-Some errors linked to package version might also arise, if such you are invited to install it on your local computer on a R session and update or install the missing packages.
-
-```R
-library('shiny')
-runGitHub("GAPeDNA", "virginiemarques")
-```
-
-2) On your local computer
-
-Alternatively, you first need to download the repo, then launch R. Here are the command to run on the terminal (Linux/Mac only):
-
-```bash
-git clone https://github.com/virginiemarques/GAPeDNA
-cd GAPeDNA/
-R
-```
-
-After, you need to load `shiny` to run the app in local inside a R session:
-
-```R
-library('shiny')
-runApp()
-```
+---
 
 ## Demonstration
 
-Here is a GIF demonstration of how to interact with the app.
+![](README/Shiny_2.gif)
 
-![grab-landing-page](https://github.com/virginiemarques/Gaps_shiny_quicktest/blob/master/README/Shiny_2.gif)
+---
 
-### Credits
+## Run locally
 
-P. Lopez (UMR MARBEC) for the illustration & [C. Bernard](https://github.com/cybernar) & M.Q. Quidoz for the online deployment on the CEFE's server.
+You need R (≥ 4.1) with the following packages installed:
+`shiny`, `leaflet`, `sf`, `dplyr`, `DT`, `htmltools`, `shinythemes`, `shinycssloaders`
 
+**Option 1 — directly from GitHub:**
+
+```r
+library(shiny)
+runGitHub("GAPeDNA", "virginiemarques")
+```
+
+**Option 2 — clone and run:**
+
+```bash
+git clone https://github.com/virginiemarques/GAPeDNA
+cd GAPeDNA
+```
+
+```r
+library(shiny)
+runApp()
+```
+
+> The `data/data_for_GAPeDNA.Rdata` file (~100 MB) is not included in the repository. It is generated by the companion pipeline in [`Generate_data_GAPeDNA`](../Generate_data_GAPeDNA/) or available on request.
+
+---
+
+## Contributing
+
+Contributions to expand GAPeDNA's taxonomic scope are welcome. To propose a new group, please [open an issue](https://github.com/virginiemarques/GAPeDNA/issues) labelled `enhancement` and provide:
+
+- One or more primer pairs targeting the group
+- A global, spatialised species checklist at an appropriate resolution
+
+---
+
+## Citation
+
+If you use GAPeDNA in your work, please cite:
+
+> Marques V. et al. (2021). GAPeDNA: Assessing and mapping global species gaps in genetic databases for eDNA metabarcoding. *Diversity and Distributions*, 27, 1142–1155. https://doi.org/10.1111/ddi.13142
+
+---
+
+## Credits
+
+- **Development & maintenance:** Virginie Marques
+- **Illustration:** P. Lopez (UMR MARBEC)
+- **Server deployment:** A. Granier (CEFE)
+- **In silico PCR:** [CRABS](https://github.com/gjeunen/reference_database_creator)
+
+---
+
+## License
+
+MIT © Virginie Marques — see [LICENSE](LICENSE) for details.

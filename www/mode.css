@@ -1,41 +1,124 @@
-/* text parameters */
-  h2 {
-  text-align: center;
-  margin: auto 5%;
-  }
-  
-  h4 {
-  text-align: left;
-  margin: 10px 5%;
-  }
-  
-  h5 {
-  text-align: left;
-  margin: 5px 5%;
-  }
+/* ============================================================
+   GAPeDNA — Info page styles
+   ============================================================ */
 
-  tags {
-  text-align: left;
-  margin: auto 5%;
-  }
-  
-  a {
-  text-align: left;
-  margin: auto 5%;
+/* Constrained centered content column */
+.info-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 10px 30px 40px;
+}
+
+/* Section spacing */
+.info-section {
+  margin: 28px 0;
+}
+
+/* Section title with left accent bar */
+.section-title {
+  border-left: 4px solid #2096A8;
+  padding-left: 12px;
+  margin-bottom: 16px;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Source cards for data provenance */
+.source-card {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 14px 20px;
+  margin-bottom: 12px;
+  border-left: 3px solid #2096A8;
+}
+
+.source-card .taxa-label {
+  font-weight: 600;
   color: #2096A8;
-  }
-  
-  a:hover {
+  font-size: 15px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.source-card p {
+  margin: 4px 0;
+  color: #444;
+  font-size: 14px;
+}
+
+/* Citation highlight box */
+.citation-box {
+  background: #f0f8ff;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 12px 0;
+}
+
+/* Warning / note box */
+.note-box {
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* Credits block */
+.credit-block {
+  color: #555;
+  font-size: 14px;
+  line-height: 2;
+  margin-top: 12px;
+}
+
+.credit-block p {
+  margin: 2px 0;
+}
+
+/* Body text */
+.info-page p {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.7;
+  margin: 6px 0;
+}
+
+/* Links */
+a {
+  color: #2096A8;
+}
+
+a:hover {
   background-color: #2096A8;
   color: white;
   font-style: normal;
   text-decoration: none;
 }
 
- 
- /* center image */
- img{
- display: block;
- margin: 0px auto;
+/* Hero subtitle */
+.hero-subtitle {
+  font-size: 15px;
+  color: #666;
+  max-width: 680px;
+  margin: 8px auto 0;
+  line-height: 1.7;
+  text-align: center;
 }
- 
+
+/* Center image */
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Footer */
+.info-footer {
+  text-align: center;
+  color: #bbb;
+  font-size: 12px;
+  margin-top: 30px;
+  padding-bottom: 10px;
+}
