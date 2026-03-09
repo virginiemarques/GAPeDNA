@@ -35,7 +35,7 @@ The database is updated periodically. Current version: **MIDORI2 GenBank 269 (20
 
 | Group | Spatial resolutions | Checklist source |
 |---|---|---|
-| Marine fish | Ecoregions, Provinces, World | [Barrier et al. 2020](https://www.nature.com/articles/s41559-019-0950-y) |
+| Marine fish | Ecoregions, Provinces, World | [Albouy et al. 2019](https://www.nature.com/articles/s41559-019-0950-y) |
 | Freshwater fish | Drainage basins, World | [Tedesco et al. 2017](https://www.nature.com/articles/sdata2017141) |
 | Elasmobranchs (sharks & rays) | Ecoregions, Provinces, Basins, World | [IUCN Red List spatial data](https://www.iucnredlist.org/resources/spatial-data-download) |
 
