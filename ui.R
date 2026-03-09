@@ -198,6 +198,58 @@ panel3 <- tabPanel("About", fluid = TRUE, icon = icon("info-circle"),
 
     hr(),
 
+    # --- Primer table ---
+    div(class = "info-section",
+      h3(class = "section-title", icon("dna"), " Primer pairs"),
+      tags$p("All primer pairs currently included in the database:"),
+
+      tags$table(class = "primer-table",
+        tags$thead(
+          tags$tr(
+            tags$th("Primer pair"),
+            tags$th("Forward (5\u2019\u2192 3\u2019)"),
+            tags$th("Reverse (5\u2019\u2192 3\u2019)")
+          )
+        ),
+        tags$tbody(
+          # --- 12S ---
+          tags$tr(class = "gene-header", tags$td(colspan = "3", "12S")),
+          tags$tr(tags$td("Bylemans"),          tags$td(tags$code("GCCTATATACCGCCGTCG")),         tags$td(tags$code("GTACACTTACCATGTTACGACTT"))),
+          tags$tr(tags$td("Evans \u2014 ac12s"), tags$td(tags$code("ACTGGGATTAGATACCCCACTATG")),    tags$td(tags$code("GAGAGTGACGGGCGGTGT"))),
+          tags$tr(tags$td("Evans \u2014 Am12s"), tags$td(tags$code("AGCCACCGCGGTTATACG")),          tags$td(tags$code("CAAGTCCTTTGGGTTTTAAGC"))),
+          tags$tr(tags$td("Kelly"),              tags$td(tags$code("ACTGGGATTAGATACCCC")),           tags$td(tags$code("TAGAACAGGCTCCTCTAG"))),
+          tags$tr(tags$td("Miya \u2014 MiFish"),  tags$td(tags$code("GTCGGTAAAACTCGTGCCAGC")),       tags$td(tags$code("CATAGTGGGGTATCTAATCCCAGTTTG"))),
+          tags$tr(tags$td("Miya \u2014 MiFishE"), tags$td(tags$code("GTTGGTAAATCTCGTGCCAGC")),       tags$td(tags$code("CATAGTGGGGTATCTAATCCTAGTTTG"))),
+          tags$tr(tags$td("Riaz \u2014 Vert01"),  tags$td(tags$code("TAGAACAGGCTCCTCTAG")),           tags$td(tags$code("TTAGATACCCCACTATGC"))),
+          tags$tr(tags$td("Taberlet \u2014 teleo2"), tags$td(tags$code("AAACTCGTGCCAGCCACC")),       tags$td(tags$code("GGGTATCTAATCCCAGTTTG"))),
+          tags$tr(tags$td("Taberlet \u2014 Elas02"), tags$td(tags$code("GTTGGTHAATCTCGTGCCAGC")),    tags$td(tags$code("CATAGTAGGGTATCTAATCCTAGTTTG"))),
+          tags$tr(tags$td("Taberlet \u2014 Chon01"), tags$td(tags$code("ACACCGCCCGTCACTCTC")),       tags$td(tags$code("CATGTTACGACTTGCCTCCTC"))),
+          tags$tr(tags$td("Valentini \u2014 teleo"), tags$td(tags$code("ACACCGCCCGTCACTCT")),         tags$td(tags$code("CTTCCGGTACACTTACCATG"))),
+          # --- 16S ---
+          tags$tr(class = "gene-header", tags$td(colspan = "3", "16S")),
+          tags$tr(tags$td("DiBattista"),           tags$td(tags$code("GACCCTATGGAGCTTTAGAC")),        tags$td(tags$code("CGCTGTTATCCCTADRGTAACT"))),
+          tags$tr(tags$td("Evans \u2014 Ac16s"),   tags$td(tags$code("CCTTTTGCATCATGATTTAGC")),       tags$td(tags$code("CAGGTGGCTGCTTTTAGGC"))),
+          tags$tr(tags$td("Evans \u2014 ve16s"),   tags$td(tags$code("CGAGAAGACCCTATGGAGCTTA")),      tags$td(tags$code("AATCGTTGAACAAACGAACC"))),
+          tags$tr(tags$td("Kitano"),               tags$td(tags$code("GCCTGTTTACCAAAAACATCAC")),      tags$td(tags$code("CTCCATAGGGTCTTCTCGTCTT"))),
+          tags$tr(tags$td("McInnes"),              tags$td(tags$code("AGCGYAATCACTTGTCTYTTAA")),      tags$td(tags$code("CRBGGTCGCCCCAACCRAA"))),
+          tags$tr(tags$td("Palumbi"),              tags$td(tags$code("CGCCTGTTTATCAAAAACAT")),        tags$td(tags$code("CCGGTCTGAACTCAGATCACGT"))),
+          tags$tr(tags$td("Shaw"),                 tags$td(tags$code("CGAGAAGACCCTWTGGAGCTTIAG")),    tags$td(tags$code("GGTCGCCCCAACCRAAG"))),
+          # --- CytB ---
+          tags$tr(class = "gene-header", tags$td(colspan = "3", "Cytochrome b")),
+          tags$tr(tags$td("Kocher"),  tags$td(tags$code("AAAAACCACCGTTGTTATTCAACTA")),             tags$td(tags$code("GCDCCTCARAATGAYATTTGTCCTCA"))),
+          tags$tr(tags$td("Miya"),    tags$td(tags$code("TTCCTAGCCATACAYTAYAC")),                   tags$td(tags$code("GGTGGCKCCTCAGAAGGACATTTGKCCYCA"))),
+          tags$tr(tags$td("Thomsen"), tags$td(tags$code("TCCTTTTGAGGCGCTACAGT")),                   tags$td(tags$code("GGAATGCGAAGAATCGTGTT"))),
+          # --- COI ---
+          tags$tr(class = "gene-header", tags$td(colspan = "3", "COI")),
+          tags$tr(tags$td("Fields \u2014 SharkMiniF1"), tags$td(tags$code("TCAACCAACCACAAAGACATTGGCAC")),  tags$td(tags$code("AAGATTACAAAAGCGTGGGC"))),
+          tags$tr(tags$td("Fields \u2014 SharkMiniF2"), tags$td(tags$code("TCGACTAATCATAAAGATATCGGCAC")),  tags$td(tags$code("AAGATTACAAAAGCGTGGGC"))),
+          tags$tr(tags$td("West \u2014 ElasDegF1"),     tags$td(tags$code("ACCAACCACAAAGANATNGGCAC")),     tags$td(tags$code("GATTATTACNAAAGCNTGGGC")))
+        )
+      )
+    ),
+
+    hr(),
+
     # --- Contribute ---
     div(class = "info-section",
       h3(class = "section-title", icon("handshake"), " Contribute"),
@@ -208,8 +260,7 @@ panel3 <- tabPanel("About", fluid = TRUE, icon = icon("info-circle"),
         the app."
       ),
       tags$p(icon("envelope"), " ",
-        tags$a("virginie[.]marques[at]usys[.]ethz[.]ch",
-               href = "mailto:virginie.marques@usys.ethz.ch")
+        tags$a("virginie.marques[at]usys[.]ethz[.]ch")
       )
     ),
 
